@@ -7,7 +7,7 @@ Class {
 
 { #category : 'tests' }
 MyRookTests >> testId [
-
+	"test push"
 	self assert: MyRook new id equals: 'R'
 ]
 
