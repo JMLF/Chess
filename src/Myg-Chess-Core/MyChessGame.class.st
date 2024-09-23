@@ -123,11 +123,21 @@ MyChessGame >> initializeFromFENGame: aFENGame [
 		aLayoutConstraints vertical fitContent ]
 ]
 
+{ #category : 'accessing' }
+MyChessGame >> lastMove [
+	(self moves isNotEmpty) ifTrue: [ ^(moves last) ] ifFalse: [ ^nil ]
+]
+
 { #category : 'public' }
 MyChessGame >> move: piece to: square [
 
 	piece moveTo: square.
 	self recordMovementOf: piece to: square
+]
+
+{ #category : 'accessing' }
+MyChessGame >> moves [
+	^moves 
 ]
 
 { #category : 'accessing' }

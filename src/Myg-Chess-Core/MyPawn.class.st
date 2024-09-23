@@ -20,9 +20,66 @@ MyPawn >> renderPieceOn: aSquare [
 { #category : 'rendering' }
 MyPawn >> targetSquaresLegal: aBoolean [
 
-	^ (self isWhite
-		   ifTrue: [ { square up } ]
-		   ifFalse: [ { square down } ]) select: [ :s |
-		  s notNil and: [
-			  s hasPiece not or: [ s contents color ~= color ] ] ]
+	| legalSquare |
+	legalSquare := OrderedCollection new.
+
+	self isWhite
+		ifTrue: [
+			square up ifNotNil: [
+				(square right notNil and: [square right hasPiece]) 
+					ifTrue: [ 
+						|rightPiece otherPieceLastMove gameLastMove toto|
+						rightPiece := square right contents.
+						otherPieceLastMove := (rightPiece lastSquare) ifNotNil: [ rightPiece lastSquare name ] ifNil: [ '' ].
+						gameLastMove := (square board game) lastMove.
+						toto := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
+						
+						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square up right ].
+						
+						 ].
+				(square left notNil and: [square left hasPiece]) 
+					ifTrue: [ 
+						|leftPiece otherPieceLastMove gameLastMove toto|
+						leftPiece := square left contents.
+						otherPieceLastMove := (leftPiece lastSquare) ifNotNil: [ leftPiece lastSquare name ] ifNil: [ '' ].
+						gameLastMove := (square board game) lastMove.
+						toto := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
+						
+						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square up left ].
+						
+						 ].
+				(square name at: 2) = $2 ifTrue: [ legalSquare add: square up up ].
+				square up right hasPiece ifTrue: [ legalSquare add: square up right ].
+				square up left hasPiece ifTrue: [ legalSquare add: square up left ].
+				square up hasPiece ifFalse: [ legalSquare add: square up ] ] ]
+		ifFalse: [
+			square down ifNotNil: [
+				(square right notNil and: [square right hasPiece]) 
+					ifTrue: [ 
+						|rightPiece otherPieceLastMove gameLastMove toto|
+						rightPiece := square right contents.
+						otherPieceLastMove := (rightPiece lastSquare) ifNotNil: [ rightPiece lastSquare name ] ifNil: [ '' ].
+						gameLastMove := (square board game) lastMove.
+						toto := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
+						
+						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square down right ].
+						
+						 ].
+				(square left notNil and: [square left hasPiece]) 
+					ifTrue: [ 
+						|leftPiece otherPieceLastMove gameLastMove toto|
+						leftPiece := square left contents.
+						otherPieceLastMove := (leftPiece lastSquare) ifNotNil: [ leftPiece lastSquare name ] ifNil: [ '' ].
+						gameLastMove := (square board game) lastMove.
+						toto := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
+						
+						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square down left ].
+						
+						 ].
+				(square name at: 2) = $7 ifTrue: [ legalSquare add: square down down ].
+				square down right hasPiece ifTrue: [ legalSquare add: square down right ].
+				square down left hasPiece ifTrue: [ legalSquare add: square down left ].
+				square down hasPiece ifFalse: [ legalSquare add: square down ] ] ].
+
+	^ legalSquare select: [ :s | s notNil ]
 ]

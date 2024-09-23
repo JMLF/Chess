@@ -5,6 +5,12 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
+{ #category : 'accessing' }
+MyQueen >> id [
+	
+	^ 'Q'
+]
+
 { #category : 'rendering' }
 MyQueen >> renderPieceOn: aSquare [
 
