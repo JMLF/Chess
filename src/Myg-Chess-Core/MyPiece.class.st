@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'color',
 		'square',
-		'lastSquare'
+		'lastSquare',
+		'moveCount'
 	],
 	#category : 'Myg-Chess-Core',
 	#package : 'Myg-Chess-Core'
@@ -179,12 +180,23 @@ MyPiece >> legalTargetSquares [
 ]
 
 { #category : 'path commands' }
+MyPiece >> moveCount [ 
+	^ moveCount 
+]
+
+{ #category : 'path commands' }
+MyPiece >> moveCount: count [
+	moveCount := count 
+]
+
+{ #category : 'path commands' }
 MyPiece >> moveTo: aSquare [
 
 	(self legalTargetSquares includes: aSquare) ifFalse: [ ^ self ].
 
 	square emptyContents.
 	self lastSquare: aSquare.
+	self moveCount: (moveCount ifNotNil: [ moveCount + 1 ] ifNil: [ 1 ]).
 	square := aSquare.
 	aSquare contents: self
 ]

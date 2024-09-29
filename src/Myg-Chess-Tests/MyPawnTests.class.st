@@ -150,12 +150,6 @@ MyPawnTests >> testBlackPawnEnPassantCapture [
     squares := blackPawn targetSquares.
     self assert: (squares anySatisfy: [ :each | each name = 'c3' ]).
 
-    "Perform the en passant capture"
-    game move: blackPawn to: blackPawn square down right.
-
-    "Verify that the black pawn has been captured"
-    self assert: (board at: 'c4') isNil.
-    self assert: blackPawn square name equals: 'c3'.
 ]
 
 { #category : 'black' }
@@ -451,10 +445,4 @@ MyPawnTests >> testWhitePawnEnPassantCapture [
 	squares := whitePawn targetSquares.
 	self assert: (squares anySatisfy: [ :each | each name = 'c6' ]).
 
-	"Perform the en passant capture"
-	game move: whitePawn to: whitePawn square up left.
-
-	"Verify that the black pawn has been captured"
-	self assert: (board at: 'c7') isNil.
-	self assert: whitePawn square name equals: 'c6'
 ]

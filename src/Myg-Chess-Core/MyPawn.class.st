@@ -31,8 +31,8 @@ MyPawn >> addEnPassantCaptures: legalSquares [
 		                ifFalse: [ square down ].
 
 	targetSquare ifNotNil: [
-		self checkEnPassantCapture: square right targetSquare: targetSquare addTo: legalSquares.
-		self checkEnPassantCapture: square left targetSquare: targetSquare addTo: legalSquares ]
+		self checkEnPassantCapture: square right targetSquare: targetSquare addTo: legalSquares side: 'right'.
+		self checkEnPassantCapture: square left targetSquare: targetSquare addTo: legalSquares side: 'left' ]
 ]
 
 { #category : 'moveCompute' }
@@ -68,16 +68,27 @@ MyPawn >> addRegularMove: legalSquares [
 ]
 
 { #category : 'moveCompute' }
-MyPawn >> checkEnPassantCapture: sideSquare targetSquare: targetSquare addTo: legalSquares [
+MyPawn >> checkEnPassantCapture: sideSquare targetSquare: targetSquare addTo: legalSquares side: aSide [
 
 	| sidePiece otherPieceLastMove gameLastMove lastMoveEnd |
 	(sideSquare notNil and: [ sideSquare hasPiece ]) ifFalse: [ ^ self ].
+
 	sidePiece := sideSquare contents.
+
+	"Vérifier si la pièce adjacente est un pion"
+	(sidePiece isKindOf: self class ) ifFalse: [ ^ self ].
+
+	"Vérifier si c'était le premier mouvement du pion adjacent"
+	sidePiece moveCount = 1 ifFalse: [ ^ self ].
+
 	otherPieceLastMove := sidePiece lastSquare ifNotNil: [ :sq | sq name ] ifNil: [ '' ].
+
 	gameLastMove := square board game lastMove.
+
 	lastMoveEnd := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
+
 	otherPieceLastMove = lastMoveEnd ifTrue: [
-		legalSquares add: (self isWhite
+		legalSquares add: (aSide = 'right'
 				 ifTrue: [ targetSquare right ]
 				 ifFalse: [ targetSquare left ]) ]
 ]
