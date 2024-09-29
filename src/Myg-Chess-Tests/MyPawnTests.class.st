@@ -124,6 +124,11 @@ MyPawnTests >> testBlackPawnCannotJumpAboveAnotherWhitePawn [
 ]
 
 { #category : 'black' }
+MyPawnTests >> testBlackPawnCannotMoveForwardOutsideTheBoard [
+	self testPawnCannotMoveForwardOutsideTheBoard: MyPawn black .
+]
+
+{ #category : 'black' }
 MyPawnTests >> testBlackPawnEnPassantCapture [ 
 "Black en passant capture"
 
@@ -262,6 +267,26 @@ MyPawnTests >> testPawnCannotJumpAboveAnotherPawn: aMyPawn abovePawn: aOtherPawn
 		description: 'The pawn in ' , squareAtStart , ' cannot jump above the pawn in ' , squareOfOponent , ' to go at ' , squareAfterJump
 ]
 
+{ #category : 'tests' }
+MyPawnTests >> testPawnCannotMoveForwardOutsideTheBoard: aMyPawn [
+
+	| board nextSquare squares squareAtStart |
+	squareAtStart := aMyPawn isWhite
+		                 ifTrue: [ 'd8' ]
+		                 ifFalse: [ 'd1' ].
+
+	board := MyChessBoard empty.
+	board at: squareAtStart put: aMyPawn.
+
+	nextSquare := aMyPawn isWhite
+		              ifTrue: [ aMyPawn square up ]
+		              ifFalse: [ aMyPawn square down ].
+
+	squares := aMyPawn targetSquares.
+
+	self assert: squares isEmpty
+]
+
 { #category : 'black' }
 MyPawnTests >> testRegularMoveForBlack [
 	"Pawn should be able to move 1 for their regular move"
@@ -324,7 +349,7 @@ MyPawnTests >> testWhiteMovesUpLeftWithSameColorObstacle [
 	board at: 'c2' put: (pawn := MyPawn white).
 
 	"Souldnt be able tu eat the same color on up left"
-	board at: 'b3' put: (MyPawn black).
+	board at: 'b3' put: (MyPawn white ).
 
 	squares := pawn targetSquares.
 	self assert: (squares allSatisfy: [ :each | each name ~= 'b3' ])
@@ -353,7 +378,7 @@ MyPawnTests >> testWhiteMovesUpRightWithSameColorObstacle [
 	board at: 'c2' put: (pawn := MyPawn white).
 
 	"Souldnt be able tu eat the same color on up right"
-	board at: 'd3' put: (MyPawn black).
+	board at: 'd3' put: (MyPawn white).
 
 	squares := pawn targetSquares.
 	self assert: (squares allSatisfy: [ :each | each name ~= 'd3' ])
@@ -397,6 +422,11 @@ MyPawnTests >> testWhitePawnCannotJumpAboveAnotherBlackPawn [
 { #category : 'white' }
 MyPawnTests >> testWhitePawnCannotJumpAboveAnotherWhitePawn [
 	self testPawnCannotJumpAboveAnotherPawn: MyPawn white abovePawn: MyPawn white
+]
+
+{ #category : 'white' }
+MyPawnTests >> testWhitePawnCannotMoveForwardOutsideTheBoard [
+	self testPawnCannotMoveForwardOutsideTheBoard: MyPawn white.
 ]
 
 { #category : 'white' }

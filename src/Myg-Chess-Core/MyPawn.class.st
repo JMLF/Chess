@@ -5,13 +5,13 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
-{ #category : 'adding' }
+{ #category : 'moveCompute' }
 MyPawn >> addCaptureIfPossible: targetSquare to: legalSquares [ 
     (targetSquare notNil and: [targetSquare hasPiece and: [targetSquare contents color ~= self color] ]) 
         ifTrue: [ legalSquares add: targetSquare ]
 ]
 
-{ #category : 'adding' }
+{ #category : 'moveCompute' }
 MyPawn >> addDiagonalCaptures: legalSquares [
 	| targetSquare |
     targetSquare := self isWhite ifTrue: [ square up ] ifFalse: [ square down ].
@@ -20,6 +20,34 @@ MyPawn >> addDiagonalCaptures: legalSquares [
         self addCaptureIfPossible: targetSquare right to: legalSquares.
         self addCaptureIfPossible: targetSquare left to: legalSquares.
     ]
+]
+
+{ #category : 'moveCompute' }
+MyPawn >> addEnPassantCaptures: legalSquares [
+
+	| targetSquare |
+	targetSquare := self isWhite
+		                ifTrue: [ square up ]
+		                ifFalse: [ square down ].
+
+	targetSquare ifNotNil: [
+		self checkEnPassantCapture: square right targetSquare: targetSquare addTo: legalSquares.
+		self checkEnPassantCapture: square left targetSquare: targetSquare addTo: legalSquares ]
+]
+
+{ #category : 'moveCompute' }
+MyPawn >> checkEnPassantCapture: sideSquare targetSquare: targetSquare addTo: legalSquares [
+
+	| sidePiece otherPieceLastMove gameLastMove lastMoveEnd |
+	(sideSquare notNil and: [ sideSquare hasPiece ]) ifFalse: [ ^ self ].
+	sidePiece := sideSquare contents.
+	otherPieceLastMove := sidePiece lastSquare ifNotNil: [ :sq | sq name ] ifNil: [ '' ].
+	gameLastMove := square board game lastMove.
+	lastMoveEnd := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
+	otherPieceLastMove = lastMoveEnd ifTrue: [
+		legalSquares add: (self isWhite
+				 ifTrue: [ targetSquare right ]
+				 ifFalse: [ targetSquare left ]) ]
 ]
 
 { #category : 'moveCompute' }
@@ -61,62 +89,10 @@ MyPawn >> targetSquaresLegal: aBoolean [
 	| legalSquare |
 	legalSquare := OrderedCollection new.
 	
-	self isWhite
-		ifTrue: [
-			square up ifNotNil: [
-				(square right notNil and: [square right hasPiece]) 
-					ifTrue: [ 
-						|rightPiece otherPieceLastMove gameLastMove toto|
-						rightPiece := square right contents.
-						otherPieceLastMove := (rightPiece lastSquare) ifNotNil: [ rightPiece lastSquare name ] ifNil: [ '' ].
-						gameLastMove := (square board game) lastMove.
-						toto := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
-						
-						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square up right ].
-						
-						 ].
-				(square left notNil and: [square left hasPiece]) 
-					ifTrue: [ 
-						|leftPiece otherPieceLastMove gameLastMove toto|
-						leftPiece := square left contents.
-						otherPieceLastMove := (leftPiece lastSquare) ifNotNil: [ leftPiece lastSquare name ] ifNil: [ '' ].
-						gameLastMove := (square board game) lastMove.
-						toto := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
-						
-						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square up left ].
-						
-						 ].
-			
-				 ] 
-			]
-		ifFalse: [
-			square down ifNotNil: [
-				(square right notNil and: [square right hasPiece]) 
-					ifTrue: [ 
-						|rightPiece otherPieceLastMove gameLastMove toto|
-						rightPiece := square right contents.
-						otherPieceLastMove := (rightPiece lastSquare) ifNotNil: [ rightPiece lastSquare name ] ifNil: [ '' ].
-						gameLastMove := (square board game) lastMove.
-						toto := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
-						
-						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square down right ].
-						
-						 ].
-				(square left notNil and: [square left hasPiece]) 
-					ifTrue: [ 
-						|leftPiece otherPieceLastMove gameLastMove toto|
-						leftPiece := square left contents.
-						otherPieceLastMove := (leftPiece lastSquare) ifNotNil: [ leftPiece lastSquare name ] ifNil: [ '' ].
-						gameLastMove := (square board game) lastMove.
-						toto := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
-						
-						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square down left ].
-						
-						 ].
-				] ].
 		
 		self addDiagonalCaptures: legalSquare .
 		legalSquare addAll: self computeFirstMove .
+		self addEnPassantCaptures: legalSquare .
 
 	^ legalSquare select: [ :s | s notNil ]
 ]
