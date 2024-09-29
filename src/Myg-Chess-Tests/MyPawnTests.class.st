@@ -133,24 +133,24 @@ MyPawnTests >> testBlackPawnEnPassantCapture [
    
 
     "Get the white pawn at 'b2'"
-    whitePawn := (board at: 'b2') contents .
+    blackPawn := (board at: 'b7') contents .
 
-    whitePawn moveTo: whitePawn square up up.
-	whitePawn  moveTo: whitePawn square up.
+    game move: blackPawn to: blackPawn square down down.
+	game move: blackPawn to: blackPawn square down.
     
-	blackPawn := (board at: 'c7') contents.
-    blackPawn moveTo: blackPawn square down down.
+	whitePawn := (board at: 'c2') contents.
+    game move: whitePawn to: whitePawn square up up.
 
-    "White pawn should be able to capture en passant at 'c6'"
-    squares := whitePawn targetSquares.
-    self assert: (squares anySatisfy: [ :each | each name = 'c6' ]).
+    "Black pawn should be able to capture en passant at 'c3'"
+    squares := blackPawn targetSquares.
+    self assert: (squares anySatisfy: [ :each | each name = 'c3' ]).
 
     "Perform the en passant capture"
-    whitePawn moveTo: whitePawn square up left.
+    game move: blackPawn to: blackPawn square down right.
 
     "Verify that the black pawn has been captured"
-    self assert: (board at: 'c7') isNil.
-    self assert: whitePawn square name equals: 'c6'.
+    self assert: (board at: 'c4') isNil.
+    self assert: blackPawn square name equals: 'c3'.
 ]
 
 { #category : 'black' }
