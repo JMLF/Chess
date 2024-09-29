@@ -68,6 +68,16 @@ MyPawnTests >> testBlackPawnCannotGoToTheSide [
 ]
 
 { #category : 'black' }
+MyPawnTests >> testBlackPawnCannotJumpAboveAnotherBlackPawn [
+	self testPawnCannotJumpAboveAnotherPawn: MyPawn black abovePawn: MyPawn black 
+]
+
+{ #category : 'black' }
+MyPawnTests >> testBlackPawnCannotJumpAboveAnotherWhitePawn [
+	self testPawnCannotJumpAboveAnotherPawn: MyPawn black abovePawn: MyPawn white 
+]
+
+{ #category : 'black' }
 MyPawnTests >> testBorderBlackPawnAtLeftCannotGoAtLeft [
 	self testBorderPawnAtLeftCannotGoAtLeft: MyPawn black 
 ]
@@ -146,6 +156,34 @@ MyPawnTests >> testFirstMoveForWhite [
 { #category : 'tests' }
 MyPawnTests >> testId [
 	self assert: MyPawn new id equals: 'P'
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testPawnCannotJumpAboveAnotherPawn: aMyPawn abovePawn: aOtherPawn [
+
+	| board squareAfterJump squareAtStart squareOfOponent squares |
+	
+	squareAtStart := aMyPawn isWhite
+		                 ifTrue: [ 'e2' ]
+		                 ifFalse: [ 'e7' ].
+		
+	squareOfOponent := aMyPawn isWhite
+		                   ifTrue: [ 'e3' ]
+		                   ifFalse: [ 'e6' ].
+		
+	squareAfterJump := aMyPawn isWhite
+		                   ifTrue: [ 'e4' ]
+		                   ifFalse: [ 'e5' ].
+
+	board := MyChessBoard empty.
+	board at: squareAtStart put: aMyPawn.
+	board at: squareOfOponent put: aOtherPawn.
+
+	squares := aMyPawn targetSquares.
+
+	self
+		assert: (squares allSatisfy: [ :s | s name ~= squareAfterJump ])
+		description: 'The pawn in ' , squareAtStart , ' cannot jump above the pawn in ' , squareOfOponent , ' to go at ' , squareAfterJump
 ]
 
 { #category : 'black' }
@@ -227,4 +265,14 @@ MyPawnTests >> testWhitePawnCannotGoToTheSide [
 	self assert: (squares anySatisfy: [:each | #('d2' 'f2') includes: each name ]) not
 
 	
+]
+
+{ #category : 'white' }
+MyPawnTests >> testWhitePawnCannotJumpAboveAnotherBlackPawn [
+	self testPawnCannotJumpAboveAnotherPawn: MyPawn white abovePawn: MyPawn black 
+]
+
+{ #category : 'white' }
+MyPawnTests >> testWhitePawnCannotJumpAboveAnotherWhitePawn [
+	self testPawnCannotJumpAboveAnotherPawn: MyPawn white abovePawn: MyPawn white
 ]
