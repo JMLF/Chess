@@ -5,7 +5,7 @@ Class {
 	#package : 'Myg-Chess-Tests'
 }
 
-{ #category : 'tests' }
+{ #category : 'black' }
 MyPawnTests >> testBlackCannotEatOponentForward [
 
 	| pawn squares board |
@@ -21,7 +21,7 @@ MyPawnTests >> testBlackCannotEatOponentForward [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : 'black' }
 MyPawnTests >> testBlackMovesDownLeftWithOponentObstacle [
 
 	| pawn squares board |
@@ -37,7 +37,7 @@ MyPawnTests >> testBlackMovesDownLeftWithOponentObstacle [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : 'black' }
 MyPawnTests >> testBlackMovesDownRightWithOponentObstacle [
 
 	| pawn squares board |
@@ -53,7 +53,7 @@ MyPawnTests >> testBlackMovesDownRightWithOponentObstacle [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : 'black' }
 MyPawnTests >> testBlackPawnCannotGoToTheSide [
 
    | pawn squares board |
@@ -67,7 +67,51 @@ MyPawnTests >> testBlackPawnCannotGoToTheSide [
 	
 ]
 
+{ #category : 'black' }
+MyPawnTests >> testBorderBlackPawnAtLeftCannotGoAtLeft [
+	self testBorderPawnAtLeftCannotGoAtLeft: MyPawn black 
+]
+
+{ #category : 'black' }
+MyPawnTests >> testBorderBlackPawnAtRightCannotGoAtRight [
+	self testBorderPawnAtRightCannotGoAtRight: MyPawn black 
+]
+
 { #category : 'tests' }
+MyPawnTests >> testBorderPawnAtLeftCannotGoAtLeft: aMyPawn [
+
+	| board |
+	board := MyChessBoard empty.
+	board at: 'a4' put: aMyPawn .
+	
+	aMyPawn targetSquares.
+
+
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testBorderPawnAtRightCannotGoAtRight: aMyPawn [
+
+	| board |
+	board := MyChessBoard empty.
+	board at: 'h4' put: aMyPawn .
+	
+	aMyPawn targetSquares.
+
+
+]
+
+{ #category : 'white' }
+MyPawnTests >> testBorderWhitePawnAtLeftCannotGoAtLeft [
+	self testBorderPawnAtLeftCannotGoAtLeft: MyPawn white 
+]
+
+{ #category : 'white' }
+MyPawnTests >> testBorderWhitePawnAtRightCannotGoAtRight [
+	self testBorderPawnAtRightCannotGoAtRight: MyPawn white
+]
+
+{ #category : 'black' }
 MyPawnTests >> testFirstMoveForBlack [
 	"Pawn should be able to move 1 for their regular move"
    | pawn squares board |
@@ -82,7 +126,7 @@ MyPawnTests >> testFirstMoveForBlack [
        includesAll: (#( e6 e5) collect: [ :name | board at: name ])
 ]
 
-{ #category : 'tests' }
+{ #category : 'white' }
 MyPawnTests >> testFirstMoveForWhite [
 	"Pawn should be able to move 1 for their regular move"
    | pawn squares board row|
@@ -104,7 +148,7 @@ MyPawnTests >> testId [
 	self assert: MyPawn new id equals: 'P'
 ]
 
-{ #category : 'tests' }
+{ #category : 'black' }
 MyPawnTests >> testRegularMoveForBlack [
 	"Pawn should be able to move 1 for their regular move"
    | pawn squares board |
@@ -116,7 +160,7 @@ MyPawnTests >> testRegularMoveForBlack [
 	self assert: (squares anySatisfy: [ :each | each name = 'e6' ])
 ]
 
-{ #category : 'tests' }
+{ #category : 'white' }
 MyPawnTests >> testRegularMoveForWhite [
 	"Pawn should be able to move 1 for their regular move"
    | pawn squares board |
@@ -128,7 +172,7 @@ MyPawnTests >> testRegularMoveForWhite [
 	self assert: (squares anySatisfy: [ :each | each name = 'e3' ])
 ]
 
-{ #category : 'tests' }
+{ #category : 'white' }
 MyPawnTests >> testWhiteCannotEatOponentForward [
 
 	| pawn squares board |
@@ -145,7 +189,7 @@ MyPawnTests >> testWhiteCannotEatOponentForward [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : 'white' }
 MyPawnTests >> testWhiteMovesUpLeftWithOponentObstacle [
 	| pawn squares board |
 	board := MyChessBoard empty.
@@ -158,7 +202,7 @@ MyPawnTests >> testWhiteMovesUpLeftWithOponentObstacle [
 	self assert: (squares anySatisfy: [ :each | each name = 'b5' ])
 ]
 
-{ #category : 'tests' }
+{ #category : 'white' }
 MyPawnTests >> testWhiteMovesUpRightWithOponentObstacle [
 	| pawn squares board |
 	board := MyChessBoard empty.
@@ -171,7 +215,7 @@ MyPawnTests >> testWhiteMovesUpRightWithOponentObstacle [
 	self assert: (squares anySatisfy: [ :each | each name = 'd5' ])
 ]
 
-{ #category : 'tests' }
+{ #category : 'white' }
 MyPawnTests >> testWhitePawnCannotGoToTheSide [
 
    | pawn squares board |
