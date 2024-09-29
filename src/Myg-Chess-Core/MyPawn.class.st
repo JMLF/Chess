@@ -36,6 +36,38 @@ MyPawn >> addEnPassantCaptures: legalSquares [
 ]
 
 { #category : 'moveCompute' }
+MyPawn >> addFirstMove: legalSquares [
+
+	| firstSquare secondSquare |
+
+
+	firstSquare := self isWhite
+		              ifTrue: [ square up ]
+		              ifFalse: [ square down ].
+	
+
+	secondSquare := firstSquare ifNotNil: [
+		                self isWhite
+			                ifTrue: [ ((square name at: 2) = $2 and: [ firstSquare hasPiece not ]) ifTrue: [ firstSquare up ] ]
+			                ifFalse: [ ((square name at: 2) = $7 and: [ firstSquare hasPiece not ]) ifTrue: [ firstSquare down ] ] ].
+
+	secondSquare ifNotNil: [ legalSquares add: secondSquare ].
+
+]
+
+{ #category : 'moveCompute' }
+MyPawn >> addRegularMove: legalSquares [
+
+	| nextSquare |
+	nextSquare := self isWhite
+		              ifTrue: [ square up ]
+		              ifFalse: [ square down ].
+
+
+	nextSquare ifNotNil: [ nextSquare hasPiece ifFalse: [ legalSquares add: nextSquare ] ]
+]
+
+{ #category : 'moveCompute' }
 MyPawn >> checkEnPassantCapture: sideSquare targetSquare: targetSquare addTo: legalSquares [
 
 	| sidePiece otherPieceLastMove gameLastMove lastMoveEnd |
@@ -50,31 +82,18 @@ MyPawn >> checkEnPassantCapture: sideSquare targetSquare: targetSquare addTo: le
 				 ifFalse: [ targetSquare left ]) ]
 ]
 
-{ #category : 'moveCompute' }
-MyPawn >> computeFirstMove [
-
-	| legalSquare firstSquare secondSquare |
-	legalSquare := OrderedCollection new.
-
-	firstSquare := self isWhite
-		               ifTrue: [ square up hasPiece ifFalse: [ square up ] ]
-		               ifFalse: [ square down hasPiece ifFalse: [ square down ] ].
-
-	secondSquare := firstSquare ifNotNil: [
-		                self isWhite
-			                ifTrue: [ ((square name at: 2) = $2 and: [ firstSquare hasPiece not ]) ifTrue: [ firstSquare up ] ]
-			                ifFalse: [ ((square name at: 2) = $7 and: [ firstSquare hasPiece not ]) ifTrue: [ firstSquare down ] ] ].
-
-	firstSquare ifNotNil: [ legalSquare add: firstSquare ].
-	secondSquare ifNotNil: [ legalSquare add: secondSquare ].
-
-	^ legalSquare
-]
-
 { #category : 'accessing' }
 MyPawn >> id [
 
 	^ 'P'
+]
+
+{ #category : 'moveCompute' }
+MyPawn >> isOnStartingRank [ 
+    ^ self isWhite
+        ifTrue: [ (square name at: 2) = $2 ]
+        ifFalse: [ (square name at: 2) = $7 ]
+
 ]
 
 { #category : 'rendering' }
@@ -89,9 +108,9 @@ MyPawn >> targetSquaresLegal: aBoolean [
 	| legalSquare |
 	legalSquare := OrderedCollection new.
 	
-		
+		self addRegularMove: legalSquare .
 		self addDiagonalCaptures: legalSquare .
-		legalSquare addAll: self computeFirstMove .
+		self addFirstMove: legalSquare .
 		self addEnPassantCaptures: legalSquare .
 
 	^ legalSquare select: [ :s | s notNil ]
