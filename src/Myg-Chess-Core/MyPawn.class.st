@@ -5,6 +5,23 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
+{ #category : 'adding' }
+MyPawn >> addCaptureIfPossible: targetSquare to: legalSquares [ 
+    (targetSquare notNil and: [targetSquare hasPiece and: [targetSquare contents color ~= self color] ]) 
+        ifTrue: [ legalSquares add: targetSquare ]
+]
+
+{ #category : 'adding' }
+MyPawn >> addDiagonalCaptures: legalSquares [
+	| targetSquare |
+    targetSquare := self isWhite ifTrue: [ square up ] ifFalse: [ square down ].
+    
+    targetSquare ifNotNil: [
+        self addCaptureIfPossible: targetSquare right to: legalSquares.
+        self addCaptureIfPossible: targetSquare left to: legalSquares.
+    ]
+]
+
 { #category : 'moveCompute' }
 MyPawn >> computeFirstMove [
 
@@ -69,8 +86,7 @@ MyPawn >> targetSquaresLegal: aBoolean [
 						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square up left ].
 						
 						 ].
-				square up right hasPiece ifTrue: [ legalSquare add: square up right ].
-				square up left hasPiece ifTrue: [ legalSquare add: square up left ].
+			
 				 ] 
 			]
 		ifFalse: [
@@ -97,10 +113,9 @@ MyPawn >> targetSquaresLegal: aBoolean [
 						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square down left ].
 						
 						 ].
-				square down right hasPiece ifTrue: [ legalSquare add: square down right ].
-				square down left hasPiece ifTrue: [ legalSquare add: square down left ].
 				] ].
 		
+		self addDiagonalCaptures: legalSquare .
 		legalSquare addAll: self computeFirstMove .
 
 	^ legalSquare select: [ :s | s notNil ]
