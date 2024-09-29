@@ -400,31 +400,31 @@ MyPawnTests >> testWhitePawnCannotJumpAboveAnotherWhitePawn [
 ]
 
 { #category : 'white' }
-MyPawnTests >> testWhitePawnEnPassantCapture [ 
-"White en passant capture"
+MyPawnTests >> testWhitePawnEnPassantCapture [
+	"White en passant capture"
 
-    | whitePawn blackPawn board game squares |
-	game := MyChessGame freshGame .
-	board := game board .
-   
+	| whitePawn blackPawn board game squares |
+	game := MyChessGame freshGame.
+	board := game board.
 
-    "Get the white pawn at 'b2'"
-    whitePawn := (board at: 'b2') contents .
 
-    whitePawn moveTo: whitePawn square up up.
-	whitePawn  moveTo: whitePawn square up.
-    
+	"Get the white pawn at 'b2'"
+	whitePawn := (board at: 'b2') contents.
+
+	game move: whitePawn to: whitePawn square up up.
+	game move: whitePawn to: whitePawn square up.
+
 	blackPawn := (board at: 'c7') contents.
-    blackPawn moveTo: blackPawn square down down.
+	game move: blackPawn to: blackPawn square down down.
 
-    "White pawn should be able to capture en passant at 'c6'"
-    squares := whitePawn targetSquares.
-    self assert: (squares anySatisfy: [ :each | each name = 'c6' ]).
+	"White pawn should be able to capture en passant at 'c6'"
+	squares := whitePawn targetSquares.
+	self assert: (squares anySatisfy: [ :each | each name = 'c6' ]).
 
-    "Perform the en passant capture"
-    whitePawn moveTo: whitePawn square up left.
+	"Perform the en passant capture"
+	game move: whitePawn to: whitePawn square up left.
 
-    "Verify that the black pawn has been captured"
-    self assert: (board at: 'c7') isNil.
-    self assert: whitePawn square name equals: 'c6'.
+	"Verify that the black pawn has been captured"
+	self assert: (board at: 'c7') isNil.
+	self assert: whitePawn square name equals: 'c6'
 ]
