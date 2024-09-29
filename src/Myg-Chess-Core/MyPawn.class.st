@@ -5,6 +5,27 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
+{ #category : 'moveCompute' }
+MyPawn >> computeFirstMove [
+
+	| legalSquare firstSquare secondSquare |
+	legalSquare := OrderedCollection new.
+
+	firstSquare := self isWhite
+		               ifTrue: [ square up hasPiece ifFalse: [ square up ] ]
+		               ifFalse: [ square down hasPiece ifFalse: [ square down ] ].
+
+	secondSquare := firstSquare ifNotNil: [
+		                self isWhite
+			                ifTrue: [ ((square name at: 2) = $2 and: [ firstSquare hasPiece not ]) ifTrue: [ firstSquare up ] ]
+			                ifFalse: [ ((square name at: 2) = $7 and: [ firstSquare hasPiece not ]) ifTrue: [ firstSquare down ] ] ].
+
+	firstSquare ifNotNil: [ legalSquare add: firstSquare ].
+	secondSquare ifNotNil: [ legalSquare add: secondSquare ].
+
+	^ legalSquare
+]
+
 { #category : 'accessing' }
 MyPawn >> id [
 
@@ -20,9 +41,9 @@ MyPawn >> renderPieceOn: aSquare [
 { #category : 'rendering' }
 MyPawn >> targetSquaresLegal: aBoolean [
 
-	| legalSquares |
-	legalSquares := OrderedCollection new.
-
+	| legalSquare |
+	legalSquare := OrderedCollection new.
+	
 	self isWhite
 		ifTrue: [
 			square up ifNotNil: [
@@ -34,7 +55,7 @@ MyPawn >> targetSquaresLegal: aBoolean [
 						gameLastMove := (square board game) lastMove.
 						toto := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
 						
-						(otherPieceLastMove = toto) ifTrue: [ legalSquares add: square up right ].
+						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square up right ].
 						
 						 ].
 				(square left notNil and: [square left hasPiece]) 
@@ -45,13 +66,13 @@ MyPawn >> targetSquaresLegal: aBoolean [
 						gameLastMove := (square board game) lastMove.
 						toto := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
 						
-						(otherPieceLastMove = toto) ifTrue: [ legalSquares add: square up left ].
+						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square up left ].
 						
 						 ].
-				(square name at: 2) = $2 ifTrue: [ legalSquares add: square up up ].
-				square up right hasPiece ifTrue: [ legalSquares add: square up right ].
-				square up left hasPiece ifTrue: [ legalSquares add: square up left ].
-				square up hasPiece ifFalse: [ legalSquares add: square up ] ] ]
+				square up right hasPiece ifTrue: [ legalSquare add: square up right ].
+				square up left hasPiece ifTrue: [ legalSquare add: square up left ].
+				 ] 
+			]
 		ifFalse: [
 			square down ifNotNil: [
 				(square right notNil and: [square right hasPiece]) 
@@ -62,7 +83,7 @@ MyPawn >> targetSquaresLegal: aBoolean [
 						gameLastMove := (square board game) lastMove.
 						toto := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
 						
-						(otherPieceLastMove = toto) ifTrue: [ legalSquares add: square down right ].
+						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square down right ].
 						
 						 ].
 				(square left notNil and: [square left hasPiece]) 
@@ -73,13 +94,14 @@ MyPawn >> targetSquaresLegal: aBoolean [
 						gameLastMove := (square board game) lastMove.
 						toto := gameLastMove ifNotNil: [ gameLastMove last: 2 ] ifNil: [ nil ].
 						
-						(otherPieceLastMove = toto) ifTrue: [ legalSquares add: square down left ].
+						(otherPieceLastMove = toto) ifTrue: [ legalSquare add: square down left ].
 						
 						 ].
-				(square name at: 2) = $7 ifTrue: [ legalSquares add: square down down ].
-				square down right hasPiece ifTrue: [ legalSquares add: square down right ].
-				square down left hasPiece ifTrue: [ legalSquares add: square down left ].
-				square down hasPiece ifFalse: [ legalSquares add: square down ] ] ].
+				square down right hasPiece ifTrue: [ legalSquare add: square down right ].
+				square down left hasPiece ifTrue: [ legalSquare add: square down left ].
+				] ].
+		
+		legalSquare addAll: self computeFirstMove .
 
-	^ legalSquares select: [ :s | s notNil ]
+	^ legalSquare select: [ :s | s notNil ]
 ]
