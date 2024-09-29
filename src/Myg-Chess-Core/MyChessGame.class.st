@@ -136,7 +136,18 @@ MyChessGame >> lastMove [
 { #category : 'public' }
 MyChessGame >> move: piece to: square [
 
+	|isEnPassantMove|
+
+	isEnPassantMove := false.
+
+	(piece isKindOf: MyPawn) ifTrue: [
+		(square hasPiece) ifFalse: [ (piece square name at: 1) ~= (square name at:1) ifTrue: [ isEnPassantMove := true  ]] 
+		].
+
 	piece moveTo: square.
+	
+	isEnPassantMove ifTrue: [ (square down) emptyContents  ].
+	
 	self recordMovementOf: piece to: square
 ]
 
