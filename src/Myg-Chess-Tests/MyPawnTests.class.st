@@ -38,6 +38,22 @@ MyPawnTests >> testBlackMovesDownLeftWithOponentObstacle [
 ]
 
 { #category : 'black' }
+MyPawnTests >> testBlackMovesDownLeftWithSameColorObstacle [
+
+	| pawn squares board |
+	board := MyChessBoard empty.
+	board at: 'c7' put: (pawn := MyPawn black).
+
+	"Souldnt be able tu eat the same color on down left"
+	board at: 'b6' put: (MyPawn black).
+
+	squares := pawn targetSquares.
+	self assert: (squares allSatisfy: [ :each | each name ~= 'b6' ])
+
+	
+]
+
+{ #category : 'black' }
 MyPawnTests >> testBlackMovesDownRightWithOponentObstacle [
 
 	| pawn squares board |
@@ -54,6 +70,36 @@ MyPawnTests >> testBlackMovesDownRightWithOponentObstacle [
 ]
 
 { #category : 'black' }
+MyPawnTests >> testBlackMovesDownRightWithSameColorObstacle [
+
+	| pawn squares board |
+	board := MyChessBoard empty.
+	board at: 'c7' put: (pawn := MyPawn black).
+
+	"Souldnt be able tu eat the same color on down right"
+	board at: 'd6' put: (MyPawn black).
+
+	squares := pawn targetSquares.
+	self assert: (squares allSatisfy: [ :each | each name ~= 'd6' ])
+
+	
+]
+
+{ #category : 'black' }
+MyPawnTests >> testBlackPawnCannotGoBackward [
+
+   | pawn squares board |
+   board := MyChessBoard empty.
+   board at: 'e5' put: (pawn := MyPawn black ).
+
+	squares := pawn targetSquares. 
+   
+	self assert: (squares anySatisfy: [:each | #('e6') includes: each name ]) not
+
+	
+]
+
+{ #category : 'black' }
 MyPawnTests >> testBlackPawnCannotGoToTheSide [
 
    | pawn squares board |
@@ -65,6 +111,36 @@ MyPawnTests >> testBlackPawnCannotGoToTheSide [
 	self assert: (squares anySatisfy: [:each | #('d2' 'f2') includes: each name ]) not
 
 	
+]
+
+{ #category : 'black' }
+MyPawnTests >> testBlackPawnEnPassantCapture [ 
+"Black en passant capture"
+
+    | whitePawn blackPawn board game squares |
+	game := MyChessGame freshGame .
+	board := game board .
+   
+
+    "Get the white pawn at 'b2'"
+    whitePawn := (board at: 'b2') contents .
+
+    whitePawn moveTo: whitePawn square up up.
+	whitePawn  moveTo: whitePawn square up.
+    
+	blackPawn := (board at: 'c7') contents.
+    blackPawn moveTo: blackPawn square down down.
+
+    "White pawn should be able to capture en passant at 'c6'"
+    squares := whitePawn targetSquares.
+    self assert: (squares anySatisfy: [ :each | each name = 'c6' ]).
+
+    "Perform the en passant capture"
+    whitePawn moveTo: whitePawn square up left.
+
+    "Verify that the black pawn has been captured"
+    self assert: (board at: 'c7') isNil.
+    self assert: whitePawn square name equals: 'c6'.
 ]
 
 { #category : 'black' }
@@ -203,6 +279,22 @@ MyPawnTests >> testWhiteMovesUpLeftWithOponentObstacle [
 ]
 
 { #category : 'white' }
+MyPawnTests >> testWhiteMovesUpLeftWithSameColorObstacle [
+
+	| pawn squares board |
+	board := MyChessBoard empty.
+	board at: 'c2' put: (pawn := MyPawn white).
+
+	"Souldnt be able tu eat the same color on up left"
+	board at: 'b3' put: (MyPawn black).
+
+	squares := pawn targetSquares.
+	self assert: (squares allSatisfy: [ :each | each name ~= 'b3' ])
+
+	
+]
+
+{ #category : 'white' }
 MyPawnTests >> testWhiteMovesUpRightWithOponentObstacle [
 	| pawn squares board |
 	board := MyChessBoard empty.
@@ -213,6 +305,36 @@ MyPawnTests >> testWhiteMovesUpRightWithOponentObstacle [
 
 	squares := pawn targetSquares.
 	self assert: (squares anySatisfy: [ :each | each name = 'd5' ])
+]
+
+{ #category : 'white' }
+MyPawnTests >> testWhiteMovesUpRightWithSameColorObstacle [
+
+	| pawn squares board |
+	board := MyChessBoard empty.
+	board at: 'c2' put: (pawn := MyPawn white).
+
+	"Souldnt be able tu eat the same color on up right"
+	board at: 'd3' put: (MyPawn black).
+
+	squares := pawn targetSquares.
+	self assert: (squares allSatisfy: [ :each | each name ~= 'd3' ])
+
+	
+]
+
+{ #category : 'white' }
+MyPawnTests >> testWhitePawnCannotGoBackward [
+
+   | pawn squares board |
+   board := MyChessBoard empty.
+   board at: 'e5' put: (pawn := MyPawn white ).
+
+	squares := pawn targetSquares. 
+   
+	self assert: (squares anySatisfy: [:each | #('e4') includes: each name ]) not
+
+	
 ]
 
 { #category : 'white' }
@@ -227,4 +349,34 @@ MyPawnTests >> testWhitePawnCannotGoToTheSide [
 	self assert: (squares anySatisfy: [:each | #('d2' 'f2') includes: each name ]) not
 
 	
+]
+
+{ #category : 'white' }
+MyPawnTests >> testWhitePawnEnPassantCapture [ 
+"White en passant capture"
+
+    | whitePawn blackPawn board game squares |
+	game := MyChessGame freshGame .
+	board := game board .
+   
+
+    "Get the white pawn at 'b2'"
+    whitePawn := (board at: 'b2') contents .
+
+    whitePawn moveTo: whitePawn square up up.
+	whitePawn  moveTo: whitePawn square up.
+    
+	blackPawn := (board at: 'c7') contents.
+    blackPawn moveTo: blackPawn square down down.
+
+    "White pawn should be able to capture en passant at 'c6'"
+    squares := whitePawn targetSquares.
+    self assert: (squares anySatisfy: [ :each | each name = 'c6' ]).
+
+    "Perform the en passant capture"
+    whitePawn moveTo: whitePawn square up left.
+
+    "Verify that the black pawn has been captured"
+    self assert: (board at: 'c7') isNil.
+    self assert: whitePawn square name equals: 'c6'.
 ]
