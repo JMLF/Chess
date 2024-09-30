@@ -39,20 +39,17 @@ MyPawn >> addEnPassantCaptures: legalSquares [
 MyPawn >> addFirstMove: legalSquares [
 
 	| firstSquare secondSquare |
-
-
 	firstSquare := self isWhite
-		              ifTrue: [ square up ]
-		              ifFalse: [ square down ].
-	
+		               ifTrue: [ square up ]
+		               ifFalse: [ square down ].
+
 
 	secondSquare := firstSquare ifNotNil: [
 		                self isWhite
-			                ifTrue: [ ((square name at: 2) = $2 and: [ firstSquare hasPiece not ]) ifTrue: [ firstSquare up ] ]
-			                ifFalse: [ ((square name at: 2) = $7 and: [ firstSquare hasPiece not ]) ifTrue: [ firstSquare down ] ] ].
+			                ifTrue: [ (self isOnStartingRank and: [ firstSquare hasPiece not ]) ifTrue: [ firstSquare up ] ]
+			                ifFalse: [ (self isOnStartingRank and: [ firstSquare hasPiece not ]) ifTrue: [ firstSquare down ] ] ].
 
-	secondSquare ifNotNil: [ legalSquares add: secondSquare ].
-
+	secondSquare ifNotNil: [ legalSquares add: secondSquare ]
 ]
 
 { #category : 'moveCompute' }
@@ -124,5 +121,5 @@ MyPawn >> targetSquaresLegal: aBoolean [
 		self addFirstMove: legalSquare .
 		self addEnPassantCaptures: legalSquare .
 
-	^ legalSquare select: [ :s | s notNil ]
+	^ legalSquare 
 ]
