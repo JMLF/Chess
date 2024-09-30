@@ -140,7 +140,7 @@ MyChessGame >> move: piece to: square [
 
 	isEnPassantMove := false.
 
-	(piece isKindOf: MyPawn) ifTrue: [
+	(piece id = 'P') ifTrue: [
 		(square hasPiece) ifFalse: [ (piece square name at: 1) ~= (square name at:1) ifTrue: [ isEnPassantMove := true  ]] 
 		].
 

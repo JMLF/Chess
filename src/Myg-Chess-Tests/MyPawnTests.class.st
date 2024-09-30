@@ -257,6 +257,59 @@ MyPawnTests >> testId [
 	self assert: MyPawn new id equals: 'P'
 ]
 
+{ #category : 'black' }
+MyPawnTests >> testIfBlackPawnIsNotAtStartRowCannotJumpAboveOtherPiece [
+	self testIfPawnIsNotAtStartRowCannotJumpAboveOtherPiece: MyPawn black .
+]
+
+{ #category : 'black' }
+MyPawnTests >> testIfBlackPawnIsNotAtStartRowCannotMoveTwoSquare [
+	self testIfPawnIsNotAtStartRowCannotMoveTwoSquare: MyPawn black 
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testIfPawnIsNotAtStartRowCannotJumpAboveOtherPiece: aMyPawn [
+	
+	|board startSquare oponnent oponnentSquare squares|
+	startSquare := aMyPawn isWhite ifTrue: [ 'e3' ] ifFalse: [ 'e6' ].
+	oponnent := aMyPawn isWhite ifTrue: [ MyPawn black ] ifFalse: [ MyPawn white ]. 
+	oponnentSquare := aMyPawn isWhite ifTrue: [ 'e4' ] ifFalse: [ 'e5' ]. 
+	
+	board := MyChessBoard empty.
+	board at: startSquare put: aMyPawn.
+	board at: oponnentSquare put: oponnent.
+	
+	squares := aMyPawn targetSquares.
+	
+	self assert: squares size equals: 0.
+	
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testIfPawnIsNotAtStartRowCannotMoveTwoSquare: aMyPawn [
+	
+	|board startSquare endSquare squares|
+	startSquare := aMyPawn isWhite ifTrue: [ 'e3' ] ifFalse: [ 'e6' ].
+	endSquare := aMyPawn isWhite ifTrue: [ 'e4' ] ifFalse: [ 'e5' ]. 
+	board := MyChessBoard empty.
+	board at: startSquare put: aMyPawn.
+	
+	squares := aMyPawn targetSquares.
+	
+	self assert: squares size equals: 1.
+	self assert: (squares at: 1) name equals: endSquare .
+]
+
+{ #category : 'white' }
+MyPawnTests >> testIfWhitePawnIsNotAtStartRowCannotJumpAboveOtherPiece [
+	self testIfPawnIsNotAtStartRowCannotJumpAboveOtherPiece: MyPawn white.
+]
+
+{ #category : 'white' }
+MyPawnTests >> testIfWhitePawnIsNotAtStartRowCannotMoveTwoSquare [
+	self testIfPawnIsNotAtStartRowCannotMoveTwoSquare: MyPawn white 
+]
+
 { #category : 'tests' }
 MyPawnTests >> testPawnCannotJumpAboveAnotherPawn: aMyPawn abovePawn: aOtherPawn [
 
