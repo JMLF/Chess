@@ -20,6 +20,8 @@ analysis := MTAnalysis new
     classesToMutate: classesToMutate.
 
 analysis run.
+
+analysis generalResult.
 ```
 
 Cette configuration permet de concentrer l'analyse de mutation sur les méthodes de la classe `MyPawn`.
