@@ -86,6 +86,58 @@ MyPawnTests >> testBlackMovesDownRightWithSameColorObstacle [
 ]
 
 { #category : 'black' }
+MyPawnTests >> testBlackPawnCannotEnPassantAfterFirstMoveLeft [ 
+"Black en passant capture"
+
+    | whitePawn blackPawn board game squares |
+	game := MyChessGame freshGame .
+	board := game board .
+   
+
+    "Get the white pawn at 'c2'"
+    blackPawn := (board at: 'c7') contents .
+
+    game move: blackPawn to: blackPawn square down down.
+	game move: blackPawn to: blackPawn square down.
+    
+	whitePawn := (board at: 'b2') contents.
+    game move: whitePawn to: whitePawn square up.
+	"Second move"
+	game move: whitePawn to: whitePawn square up.
+    
+	"Black pawn shouldn't be able to capture en passant at 'b3'"
+    squares := blackPawn targetSquares.
+    self assert: (squares anySatisfy: [ :each | each name = 'b3' ]) not.
+
+]
+
+{ #category : 'black' }
+MyPawnTests >> testBlackPawnCannotEnPassantAfterFirstMoveRight [ 
+"Black en passant capture"
+
+    | whitePawn blackPawn board game squares |
+	game := MyChessGame freshGame .
+	board := game board .
+   
+
+    "Get the white pawn at 'c2'"
+    blackPawn := (board at: 'b7') contents .
+
+    game move: blackPawn to: blackPawn square down down.
+	game move: blackPawn to: blackPawn square down.
+    
+	whitePawn := (board at: 'c2') contents.
+    game move: whitePawn to: whitePawn square up.
+	"Second move"
+	game move: whitePawn to: whitePawn square up.
+    
+	"Black pawn shouldn't be able to capture en passant at 'b3'"
+    squares := blackPawn targetSquares.
+    self assert: (squares anySatisfy: [ :each | each name = 'c3' ]) not.
+
+]
+
+{ #category : 'black' }
 MyPawnTests >> testBlackPawnCannotGoBackward [
 
    | pawn squares board |
@@ -455,6 +507,58 @@ MyPawnTests >> testWhiteMovesUpRightWithSameColorObstacle [
 	self assert: (squares allSatisfy: [ :each | each name ~= 'd3' ])
 
 	
+]
+
+{ #category : 'white' }
+MyPawnTests >> testWhitePawnCannotEnPassantAfterFirstMoveLeft [
+	"White en passant capture"
+
+	| whitePawn blackPawn board game squares |
+	game := MyChessGame freshGame.
+	board := game board.
+
+
+	"Get the white pawn at 'c2'"
+	whitePawn := (board at: 'c2') contents.
+
+	game move: whitePawn to: whitePawn square up up.
+	game move: whitePawn to: whitePawn square up.
+
+	blackPawn := (board at: 'b7') contents.
+	game move: blackPawn to: blackPawn square down.
+	"Second move"
+	game move: blackPawn to: blackPawn square down.
+	
+	"White pawn shouldn't be able to capture en passant at 'b6'"
+	squares := whitePawn targetSquares.
+	self assert: (squares anySatisfy: [ :each | each name = 'b6' ]) not.
+
+]
+
+{ #category : 'white' }
+MyPawnTests >> testWhitePawnCannotEnPassantAfterFirstMoveRight [
+	"White en passant capture"
+
+	| whitePawn blackPawn board game squares |
+	game := MyChessGame freshGame.
+	board := game board.
+
+
+	"Get the white pawn at 'b2'"
+	whitePawn := (board at: 'b2') contents.
+
+	game move: whitePawn to: whitePawn square up up.
+	game move: whitePawn to: whitePawn square up.
+
+	blackPawn := (board at: 'c7') contents.
+	game move: blackPawn to: blackPawn square down.
+	"Second move"
+	game move: blackPawn to: blackPawn square down.
+	
+	"White pawn shouldn't be able to capture en passant at 'c6'"
+	squares := whitePawn targetSquares.
+	self assert: (squares anySatisfy: [ :each | each name = 'c6' ]) not.
+
 ]
 
 { #category : 'white' }
