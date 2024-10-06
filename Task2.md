@@ -38,10 +38,10 @@ Cette configuration permet de concentrer l'analyse de mutation sur les méthodes
 
 Après avoir ajouté des tests supplémentaires, notamment pour la capture "en passant", le score de mutation a été légèrement amélioré.
 
-- **Mutants tués après ajout de tests** : 272
-- **Mutants vivants après ajout de tests** : 18
+- **Mutants tués après ajout de tests** : 273
+- **Mutants vivants après ajout de tests** : 17
 - **Score de mutation final** : 
-   $$\text{Score final} = \frac{272}{290} \times 100 \approx 93.8\%$$
+   $$\text{Score final} = \frac{273}{290} \times 100 \approx 94.1\%$$
 
 ## 4. Tests Non Écrits et Pourquoi
 
