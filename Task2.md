@@ -38,10 +38,10 @@ Cette configuration permet de concentrer l'analyse de mutation sur les méthodes
 
 Après avoir ajouté des tests supplémentaires, notamment pour la capture "en passant", le score de mutation a été légèrement amélioré.
 
-- **Mutants tués après ajout de tests** : 268
-- **Mutants vivants après ajout de tests** : 22
+- **Mutants tués après ajout de tests** : 272
+- **Mutants vivants après ajout de tests** : 18
 - **Score de mutation final** : 
-   $$\text{Score final} = \frac{268}{290} \times 100 \approx 92.4\%$$
+   $$\text{Score final} = \frac{272}{290} \times 100 \approx 93.8\%$$
 
 ## 4. Tests Non Écrits et Pourquoi
 
@@ -93,6 +93,19 @@ Certains tests n'ont pas été écrits pour les raisons suivantes :
      ]
      ```
    - **Comment il a été tué** : Le mutant modifiait la condition de vérification pour un équivalent logique, causant une confusion entre les résultats. Un test a été écrit pour vérifier le mouvement du pion au milieu de l'échiqier ne pouvais pas sauter au desus d'un piece, ce qui a permis d'éliminer ce mutant.
+
+### 4. **Mutant dans `checkEnPassantCapture: sideSquare targetSquare: targetSquare addTo: legalSquares side: aSide`** :
+   - **Base** :
+     ```smalltalk
+	"Vérifier si c'était le premier mouvement du pion adjacent"
+        sidePiece moveCount = 1 ifFalse: [ ^ self ].
+     ```
+   - **Mutant** :
+     ```smalltalk
+	"Vérifier si c'était le premier mouvement du pion adjacent"
+        (sidePiece moveCount = 1) yourself.
+     ```
+   - **Comment il a été tué** : Le mutant supprimait la vérification du nombre de mouvement du pion ennemie. Le coup en passant necessite que le pion ennemie soit sur son premier mouvement, nous avosn donc ajouté un test qui s'assure que l'on ne peut pas faire de en passant sur un pion ayant bougé plus d'une fois.
 
 ## 6. Détail de 3 Mutants Équivalents
 
