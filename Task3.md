@@ -334,6 +334,51 @@ with: otherCollection do: twoArgBlock
 ```
 Le problème étant que le parser ne comprend pas `2k5`, il lui faudrait `11k11111` par exemple.
 Si nous essayons sur une string respectant cela nous allons beaucoup plus loin `8/8/11k11111/8/8/8/8/8 b - - 0 1`.
-Nous avons toujours une erreur mais pour moi nous somme maintenant face à un bug du parser que nous verrons par la suite.
+**Nous avons toujours une erreur mais nous somme maintenant face à un bug du parser !**
+Si l'on parse la string précédente nous avons l'erreur `Assertion Failed` sur :
+
+```smalltalk
+parse	
+
+    | game |
+    game := MyFENGame new.
+
+    game ranks: self parseRanks.
+    self expectString: ' '.
+    game sideToMove: self parseSideToMove.
+    self expectString: ' '.
+    game castlingAbility: self parseCastlingAbility.
+    
+    "L'erreur provient du call suivant"
+    self expectString: ' '.
+
+    game enPassantTargetSquare: self parseEnPassant.
+    self expectString: ' '. 
+    game halfMoveClock: self parseNumber.
+    self expectString: ' '.
+    game moveCount: self parseNumber.
+    
+    ^ game
+
+```
+
+Nous attendons un ' ' mais nous avons le caractère '-' à la place :
+
+```smalltalk
+expectString: expectedString	| parsedToken |	parsedToken := stream next: expectedString size.	self assert: parsedToken = expectedString
+```
+
+Et c'est normal puisque que dans notre string nous n'avons pas de cast (rock), nous avons '-' ce qui nous fait passer dans la premiere partie du code :
+
+```smalltalk
+parseCastlingAbility
+
+    "Nous somme dans le cas de la ligne sivante, mais comme nous pouvons le constater on fait juste un return sans deplacer le curseur du string ce qui nous laisse sur le même caractère"
+    self peek = $- ifTrue: [ ^ 'NO CASTLING' ].
+
+    "On devrait avoir : self peek = $- ifTrue: [stream next. ^ 'NO CASTLING' ]."
+
+    ^ (1 to: 4) collect: [ :i | self parseAnyOf: #( $k $K $q $Q ) ]
+```
 
 ### Grammar fuzzing 
