@@ -87,4 +87,71 @@ Erreur lors du parsing de FEN: (>1   06/++2.1.!/.=: !"<=+ 08:*">&:@!?/23%<+-@+' 
 ```
 
 Mais nous pouvons deja voir que toutes ne trigger pas les même exception, nous avons `key not found in Dictionary` et `Assertion failed` par exemple.
-Nous allons devoir spécialiser le fuzzer en utilisant la grammaire definie precedemment.
+
+Dans notre cas, le parser s'arrete trop rapidement, les assertion failed proviennent de
+
+```smalltalk
+expectString: expectedString
+
+    | parsedToken |
+    parsedToken := stream next: expectedString size.
+    self assert: parsedToken = expectedString
+```
+
+Et les keynotfound proviennent de :
+
+```smalltalk
+parsePiece	
+
+    | identifier |
+    identifier := stream next.
+    ^ pieces at: identifier
+
+"Avec"
+pieces := Dictionary new.
+pieces at: $P put: 'White pawn'.
+pieces at: $N put: 'White knight'.
+pieces at: $B put: 'White bishop'.
+pieces at: $R put: 'White rook'.
+pieces at: $Q put: 'White queen'.
+pieces at: $K put: 'White king'.
+
+pieces at: $p put: 'Black pawn'.
+pieces at: $n put: 'Black knight'.
+pieces at: $b put: 'Black bishop'.	
+pieces at: $r put: 'Black rook'.
+pieces at: $q put: 'Black queen'.	
+pieces at: $k put: 'Black king'.
+```
+Ce qui veux dire que nous ne passons même par la moitié du code du parser 
+
+```smalltalk
+parse
+
+    | game |
+    game := MyFENGame new.
+  
+    "Parse piece et le assert proviennent des deux lignes suivante"
+    game ranks: self parseRanks.
+    self expectString: ' '.
+    
+    "On ne parcours jamais le code suivant"
+    game sideToMove: self parseSideToMove.
+    self expectString: ' '.
+    game castlingAbility: self parseCastlingAbility.
+    self expectString: ' '.
+    game enPassantTargetSquare: self parseEnPassant.
+    self expectString: ' '.
+    game halfMoveClock: self parseNumber.
+    self expectString: ' '.
+    game moveCount: self parseNumber.
+
+    ^ game
+```
+
+Nous allons devoir spécialiser le fuzzer en utilisant au choix la grammaire definie precedemment ou des mutation de string FEN valides.
+
+### Mutation fuzzing
+
+
+### Grammar fuzzing 
