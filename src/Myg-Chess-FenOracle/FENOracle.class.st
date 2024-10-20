@@ -12,8 +12,8 @@ Class {
 { #category : 'initialization' }
 FENOracle >> initialize [ 
     super initialize.
-    pythonPath := '/home/marius/Documents/fac/Chess/FENOracle/venv/bin/python'. "Need to be in venv in order to access python-chess package"
-	 scriptPath := '/home/marius/Documents/fac/Chess/FENOracle/validate_fen.py'.
+    pythonPath := '/home/jwoirhay/Bureau/Chess/FENOracle/venv/bin/python'. "Need to be in venv in order to access python-chess package"
+	 scriptPath := '/home/jwoirhay/Bureau/Chess/FENOracle/validate_fen.py'.
 ]
 
 { #category : 'as yet unclassified' }
