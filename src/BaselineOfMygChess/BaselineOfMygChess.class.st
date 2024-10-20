@@ -22,5 +22,6 @@ BaselineOfMygChess >> baseline: spec [
 		with: [ spec requires: #( 'Myg-Chess-Importers' ) ];
 		package: 'Myg-Chess-Importers';
 		package: 'Myg-Chess-Tests'
-		with: [ spec requires: #( 'Myg-Chess-Core' ) ]
+		with: [ spec requires: #( 'Myg-Chess-Core' ) ];
+		package: 'Myg-Chess-FenOracle'
 ]
