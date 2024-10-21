@@ -415,6 +415,23 @@ with: otherCollection do: twoArgBlock
 ```
 Le problème étant que le parser ne comprend pas `2k5`, il lui faudrait `11k11111` par exemple.
 Si nous essayons sur une string respectant cela nous allons beaucoup plus loin `8/8/11k11111/8/8/8/8/8 b - - 0 1`.
+
+**Nous allons donc commencer par fixer ce bug.**
+Le problème provient de la fonction `ranks:` de MyFENGame, la fonction attend une collection de 8 items mais lorsque nous avons 2k5.
+la collection est d'une taille 3 avec {$2 'whiteKnight' $5}, nous devont le transformer en {'empty' 'empty' 'whiteKnight' 'empty' 'empty' 'empty' ...}.
+
+Fonction avant :
+```smalltalk
+ranksback: aCollection	board := Dictionary new.	aCollection reversed with: (1 to: 8) do: [ :rankPieces :rank |		rankPieces with: ($a to: $h) do: [ :piece :column |			board at: column asString , rank asString put: piece ] ]
+```
+
+Fonction fixé :
+```smalltalk
+ranks: aCollection    "Initialise le board à partir d'une collection de collections représentant les rangées d'échecs.    Les chiffres dans les collections représentent des cases vides à étendre."    | board columnLetters expandedCollection |    board := Dictionary new.    columnLetters := $a to: $h.    "Pour chaque rangée, étendre les chiffres en cases vides"    expandedCollection := aCollection reversed collect: [:rankPieces |        | expandedPieces |        expandedPieces := OrderedCollection new.        rankPieces do: [:item |            (item isCharacter and: [item isDigit])                ifTrue: [                    (item digitValue) timesRepeat: [expandedPieces add: 'empty']                ]                ifFalse: [                                       (item = 'empty')                         ifTrue: [expandedPieces add: 'empty']                        ifFalse: [expandedPieces add: item]                ].        ].        expandedPieces    ].    "Vérifier que chaque rangée a exactement 8 éléments après expansion"    expandedCollection doWithIndex: [:rankPieces :rank |        (rankPieces size = 8) ifFalse: [            self error: 'La taille ne fait pas 8' ].        rankPieces with: columnLetters do: [:piece :column |            board at: (column asString , rank asString) put: piece        ].    ].    ^ board
+```
+
+Nous n'avons plus l'erreur `SizeMissmatch` nous pouvons passer à la suite.
+
 **Nous avons toujours une erreur mais nous somme maintenant face à un bug du parser !**
 Si l'on parse la string précédente nous avons l'erreur `Assertion Failed` sur :
 
