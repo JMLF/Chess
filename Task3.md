@@ -10,6 +10,7 @@ Metacello new
 ```
 
 ### Definition de la grammaire :
+
 Pour commencer il nous faut une grammaire qui implemente les règles de la notation [FEN](https://fr.wikipedia.org/wiki/Notation_Forsyth-Edwards).
 Definition grammaire [BNF](https://fr.wikipedia.org/wiki/Forme_de_Backus-Naur)
 ```BNF
@@ -49,7 +50,38 @@ File ::= 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h'
 "File représente les colonnes de l'échiquier, de 'a' à 'h'."
 ```
 
+Voici la grammaire implémentée en Gnocoo :
+
+```smalltalk
+defineGrammar
+	super defineGrammar.
+
+	ntFEN --> ntPiecePlacement , ' ' , ntSideToMove , ' ' , ntCastling , ' ' , ntEnPassantTargetSquare , ' ' , ntHalfMoveClock , ' '
+	, ntFullMoveNumber.
+
+	ntPiecePlacement --> ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank.
+	ntRankElement --> ntPiece | ntDigit.
+	ntRank --> ntRankElement , ntRankElement , ntRankElement , ntRankElement , ntRankElement , ntRankElement , ntRankElement , ntRankElement.
+	ntPiece --> 'P' | 'N' | 'B' | 'R' | 'Q' | 'K' | 'p' | 'n' | 'b' | 'r' | 'q' | 'k'.
+	ntDigit --> '1'.
+	ntSideToMove --> 'w' | 'b' .
+	ntCastling --> ntCastlingAbility | '-'.
+	ntCastlingAbility --> ntCastlingOption | ntCastlingOption , ntCastlingAbility.
+	ntCastlingOption --> 'K' | 'Q' | 'k' | 'q'.
+	ntEnPassantTargetSquare --> ntFile , ntDigit | '-'.
+	ntFile --> 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h'.
+	ntHalfMoveClock --> ntDigit | ntDigit , ntHalfMoveClock.
+	ntFullMoveNumber --> ntDigit | ntDigit , ntFullMoveNumber.
+
+	^ ntFEN
+```
+
+Avec les opérateurs disponibles dans Gnocoo, nous n'avons pas pu implémenter exactement la grammaire prévue, par exemple, il n'y a pas d'opérateur de répétition.
+
+Nous n'avons pas eu le temps de le faire, mais l'idée aurait été de continuer avec cette grammaire grossière pour déterminer, avec le fuzzer, s'il ne parse pas les FEN non valides. Ensuite, nous aurions pu affiner petit à petit la grammaire pour nous rapprocher le plus possible de ce que le parser FEN attend, afin d'explorer chaque branche d'exécution et chercher des bugs en profondeur.
+
 ### Fuzzing sans grammaire 
+
 Le chess game utilise le FENPaser de MyG-Chess-Importer, nous pouvons donc essayer de lance un jeu avec une string aléatoire :
 
 ```smalltalk
@@ -436,26 +468,3 @@ parseCastlingAbility
 
 ### Grammar fuzzing 
 
-```smalltalk
-defineGrammar
-	super defineGrammar.
-
-	ntFEN --> ntPiecePlacement , ' ' , ntSideToMove , ' ' , ntCastling , ' ' , ntEnPassantTargetSquare , ' ' , ntHalfMoveClock , ' '
-	, ntFullMoveNumber.
-
-	ntPiecePlacement --> ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank.
-	ntRankElement --> ntPiece | ntDigit.
-	ntRank --> ntRankElement , ntRankElement , ntRankElement , ntRankElement , ntRankElement , ntRankElement , ntRankElement , ntRankElement.
-	ntPiece --> 'P' | 'N' | 'B' | 'R' | 'Q' | 'K' | 'p' | 'n' | 'b' | 'r' | 'q' | 'k'.
-	ntDigit --> '1'.
-	ntSideToMove --> 'w' | 'b' .
-	ntCastling --> ntCastlingAbility | '-'.
-	ntCastlingAbility --> ntCastlingOption | ntCastlingOption , ntCastlingAbility.
-	ntCastlingOption --> 'K' | 'Q' | 'k' | 'q'.
-	ntEnPassantTargetSquare --> ntFile , ntDigit | '-'.
-	ntFile --> 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h'.
-	ntHalfMoveClock --> ntDigit | ntDigit , ntHalfMoveClock.
-	ntFullMoveNumber --> ntDigit | ntDigit , ntFullMoveNumber.
-
-	^ ntFEN
-```
