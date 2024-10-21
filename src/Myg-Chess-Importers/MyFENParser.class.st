@@ -90,7 +90,7 @@ MyFENParser >> parseAnyOf: options [
 { #category : 'parsing' }
 MyFENParser >> parseCastlingAbility [
 
-	self peek = $- ifTrue: [ ^ 'NO CASTLING' ].
+	self peek = $- ifTrue: [stream next. ^ 'NO CASTLING' ].
 
 	^ (1 to: 4) collect: [ :i | self parseAnyOf: #( $k $K $q $Q ) ]
 ]
