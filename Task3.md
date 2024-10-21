@@ -9,7 +9,85 @@ Metacello new
   load.
 ```
 
-### Definition de la grammaire :
+## Deinition de l'oracle :
+Pour verifier que les strings généré par les differentes méthodes de fuzzing sont valide ou invalide nous avons besoin d'un systeme externe au 
+parser pour les verifier.
+
+Nous avons mis en place un programme [python qui verifie la validité des FEN](./FENOracle/).
+
+Pour qu'il fonctionne vous devrez installer sur votre machine un paquet python dans le venv :
+
+```bash 
+cd FENOracle
+source venv/bin/activate
+pip install python-chess
+
+# Test 
+python3 validate_fen.py "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" #VALID`
+```
+
+Nous faisont appel à ce script depuis un classe pharo `FenOracle`.
+Pour qu'elle fonctionne vous devez changer dans sa méthode initilize le chemin vers le python du venv et le chemin vers le script :
+
+```smalltalk 
+initialize 
+    super initialize.
+    pythonPath := '/home/marius/Documents/fac/Chess/FENOracle/venv/bin/python'. "Need to be in venv in order to access python-chess package"
+    scriptPath := '/home/marius/Documents/fac/Chess/FENOracle/validate_fen.py'.
+```
+
+Une fois fait vous pouvez la tester depuis un playground :
+
+```smalltalk
+oracle := FENOracle new.
+oracle validateFEN: '8/8/2k5/5q2/5n2/8/5K2/8 b - - 0 1'
+```
+Vous devriez avoir le retour true ainsi qu'un affichage dans le transcript. Si ce n'est pas le cas, les chemins ne sont pas bon.
+
+Sortie transcript :
+```
+Commande: /home/marius/Documents/fac/Chess/FENOracle/venv/bin/python /home/marius/Documents/fac/Chess/FENOracle/validate_fen.py "8/8/2k5/5q2/5n2/8/5K2/8 b - - 0 1"
+Sortie: VALID
+```
+
+## Création d'un runner
+Nous voulons que nos génération passe via un runner custom qui nous renvoi `FAIL` dans le cas ou le parser échoue sur une string que l'oracle 
+arrive à lire. 
+`PASS` dans le cas ou le parser arrive à lire un fen validé par l'oracle et `PASS-FAIL` dans le cas ou le parser échoue sur une fen invalidé par 
+l'oracle (résultat attendu, sinon FAIL).
+
+Ce runner est défini dans le package Myg-Chess-Fuzzing et dans la classe MyFENRunner : 
+
+```smalltalk
+value: input
+    | oracle isValid |
+    oracle := FENOracle new.
+
+    isValid := oracle validateFEN: input.
+    [
+        | parsedPosition |
+        parsedPosition := MyFENParser parse: input ]
+    on: Error	
+    do: [ :ex |
+        isValid ifFalse: [
+            ^ self expectedFailureWith: {
+                input.
+            ex  } ].
+        ^ self failureWith: {
+            input.
+        ex  } ].
+    ^ self successWith: {
+        input.
+        isValid }
+```
+
+Usage : 
+
+```smalltalk
+mutationFuzzer := PzMutationFuzzer new.mutationFuzzer maxMutations: 0. mutationFuzzer minMutations: 0.mutationFuzzer seed: corpus."Définir le runner avec la logique de validation intégrée"runner := MyFENRunner new.mutationFuzzer run: runner times: 1000.
+```
+
+## Definition de la grammaire :
 
 Pour commencer il nous faut une grammaire qui implemente les règles de la notation [FEN](https://fr.wikipedia.org/wiki/Notation_Forsyth-Edwards).
 Definition grammaire [BNF](https://fr.wikipedia.org/wiki/Forme_de_Backus-Naur)
