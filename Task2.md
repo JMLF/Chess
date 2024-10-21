@@ -50,6 +50,10 @@ Certains tests n'ont pas été écrits pour les raisons suivantes :
 - **Tests de collection équivalente** : 
    Il existe des mutants concernant l'utilisation de collections comme `WeakOrderedCollection` et `OrderedCollection`. Ces tests n'ont pas été écrits car ces collections se comportent de manière équivalente dans le cadre de notre logique de mouvement des pions. Le choix de la collection ne modifie pas les résultats finaux des opérations.
 
+- **Tests sur l'affichage des pièces**
+    Certains mutants concernent les fonction d'affichage des piece sur le plateau. Nous ne les avons pas testés, à notre avis cela relève de tests devant couvrir une autre classe que MyPiece (et sous classes).    
+
+Les tests couvrant tout les autres mutant ont tous été écrit dans la package `Myg-Chess-Tests`.
 
 ## 5. Détail de 3 Mutants Tués et Comment Ils Ont Été Tués
 

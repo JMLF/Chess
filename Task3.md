@@ -158,7 +158,14 @@ Avec les opérateurs disponibles dans Gnocoo, nous n'avons pas pu implémenter e
 
 Nous n'avons pas eu le temps de le faire, mais l'idée aurait été de continuer avec cette grammaire grossière pour déterminer, avec le fuzzer, s'il ne parse pas les FEN non valides. Ensuite, nous aurions pu affiner petit à petit la grammaire pour nous rapprocher le plus possible de ce que le parser FEN attend, afin d'explorer chaque branche d'exécution et chercher des bugs en profondeur.
 
-### Fuzzing sans grammaire 
+## Fuzzing
+Nous avons toutes les bases pour commencer le fuzzing. Nous allons explorer plusieurs approche :
+
+- aléatoire
+- mutation
+- Avec grammaire
+
+### Fuzzing aléatoire 
 
 Le chess game utilise le FENPaser de MyG-Chess-Importer, nous pouvons donc essayer de lance un jeu avec une string aléatoire :
 
@@ -308,7 +315,8 @@ parse
     ^ game
 ```
 
-Nous allons devoir spécialiser le fuzzer en utilisant au choix la grammaire definie precedemment ou des mutation de string FEN valides.
+Ces résultats ne sont pas réprésentatif, la génération aléatoire est trop éloigné du format attendu par le parser nous ne pourrons rien en tirer pour le moment.
+Nous allons donc devoir spécialiser le fuzzer en utilisant au choix la grammaire definie precedemment ou des mutations de string FEN valides.
 
 ### Mutation fuzzing
 Il nous faut un corpus de FEN valide pour les muter, nous nous baserons sur la [source](https://gist.github.com/peterellisjones/8c46c28141c162d1d8a0f0badbc9cff9)
@@ -358,21 +366,6 @@ mutationFuzzer := PzMutationFuzzer new.
 mutationFuzzer seed: corpus.
 ```
 
-On fait notre runner :
-
-```smalltalk
-runner := PzBlockRunner on: [ :fen |
-    [
-        | parsedPosition |
-        parsedPosition := MyFENParser parse: fen.
-        "Par la suite nous ajouterons des assertion, pour le moment nous verifions simplement que les string ne declanche pas d'exception"
-    ]
-    on: Error do: [ :ex | 
-        Transcript show: 'Erreur lors du parsing de FEN: ', fen, ' - ', ex messageText; cr.
-    ].
-].
-```
-
 Pour run :
 
 ```smalltalk
@@ -405,15 +398,7 @@ corpus := {
 mutationFuzzer := PzMutationFuzzer new.
 mutationFuzzer seed: corpus.
 
-runner := PzBlockRunner on: [ :fen |
-    [
-        | parsedPosition |
-        parsedPosition := MyFENParser parse: fen.
-    ]
-    on: Error do: [ :ex | 
-        Transcript show: 'Erreur lors du parsing de FEN: ', fen, ' - ', ex messageText; cr.
-    ].
-].
+runner := MyFENRunner new.
 
 mutationFuzzer run: runner times: 1000.
 ```
@@ -452,17 +437,7 @@ mutationFuzzer maxMutations: 0. "On demande à avoir 0 modification sur nos stri
 mutationFuzzer minMutations: 0.
 mutationFuzzer seed: corpus.
 
-runner := PzBlockRunner on: [ :fen |
-    [
-        | parsedPosition |
-        parsedPosition := MyFENParser parse: fen.
-    ]
-    on: Error do: [ :ex | 
-        Transcript show: 'Erreur lors du parsing de FEN: ', fen, ' - ', ex messageText; cr.
-        "On rethrow l'execption pour que ça le marque en fail"
-        ex pass 
-    ].
-].
+runner := MyFENRunner new.
 
 mutationFuzzer run: runner times: 1000.
 ```
@@ -560,6 +535,10 @@ parseCastlingAbility
 
     ^ (1 to: 4) collect: [ :i | self parseAnyOf: #( $k $K $q $Q ) ]
 ```
+
+Un fois ces deux bug fix, nous pouvons relancer pour avoir de nouveaux résultats.
+
+
 
 ### Grammar fuzzing 
 
