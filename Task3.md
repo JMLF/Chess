@@ -83,7 +83,56 @@ fuzzer run: runner times: 50.
 La sortie transcript nous montre bien qu'aucune string aléatoire n'a passé l'étape du parsing
 
 ```
-Erreur lors du parsing de FEN: (>1   06/++2.1.!/.=: !"<=+ 08:*">&:@!?/23%<+-@+' 590#0.;?@,0<:700994:;#/)7 59<6 23&2$! - key $( not found in DictionaryErreur lors du parsing de FEN:  (0,!)12@9=)?,$:5>+.:6+': - Assertion failedErreur lors du parsing de FEN: .+30&"2  :/"#0!+2(,2>1,8,5>- =.89 +#8 3*4:&4&<#;4;9185%#=-/0+6098@@: - key $. not found in DictionaryErreur lors du parsing de FEN: 4<3&#<,,/), 83*5::)6@8%=-#!80<>119@'=.9# ?!!&1, - key $< not found in DictionaryErreur lors du parsing de FEN: 8(-(!%,+(?076=!24"('?'+/7=@$9!@;,'33"!6$@7*?+ 2 - Assertion failedErreur lors du parsing de FEN: 8>,($,?=,=831<@+9>'=-&1$+44(/51+3+"-.<6>'921-"?-5.@>)!7'1-7 /1;3%#<=6,%5! - Assertion failedErreur lors du parsing de FEN: (/:61:;)4?,9?7($/+"4%/3;3 (#0095=.?8'),56! @9+;28:-41%@2%8,? @3+$.4&+<<4-+4+4: - key $( not found in DictionaryErreur lors du parsing de FEN: #. /8"6"!,%=""%4& ,=2:@?>43%*2$3:(1!,8&;9='49-@ 48<?)2+56?- - key $# not found in DictionaryErreur lors du parsing de FEN: +'32;>&'8"(!,8?:?)3$ - key $+ not found in DictionaryErreur lors du parsing de FEN: &#,)-+=!-?9"&00*9(>&@):%(1=/=;1"'79@3-6,13* - key $& not found in DictionaryErreur lors du parsing de FEN: '$4:=.#0-+!"-+,2881;801:<5>819$0= - key $' not found in DictionaryErreur lors du parsing de FEN: <@)./0-#&29*.;3;2+=!.#3( - key $< not found in DictionaryErreur lors du parsing de FEN: "#-#/+3--(0@'0?3@& )*+5<&<&!9 - key $" not found in DictionaryErreur lors du parsing de FEN: (%*2<9>64@":>1);* 9=-508 -56-=(3(?"$@10..9+:2 - key $( not found in DictionaryErreur lors du parsing de FEN: @&4=*>1$%=1:@<>+=#*'$/9:715%6&2(3,="3 - key $@ not found in DictionaryErreur lors du parsing de FEN: <1?%?;(>"/</@!=,$$<'@:?>35*."1$3">?$".$ / (: 7-+416+66/7%,64#>>)$#!+#<8*>2;.)>*;040 - key $< not found in DictionaryErreur lors du parsing de FEN: <:*%*# 0-).=825?:<?34;;&-,12>96)$@1:!7%;1"8>3+*!@10 9*;4 - key $< not found in DictionaryErreur lors du parsing de FEN: &':+>3+-=51'/$:.0 6,,%=##-6-57"5(5,@!/0 "*%=!$!) %,+ - key $& not found in DictionaryErreur lors du parsing de FEN: (4:"?:+=?24,-!.0"/=;)'6< =0%%5<7);<"&&$(*:;,4,9@"</$&&- - key $( not found in DictionaryErreur lors du parsing de FEN: <4(;$$9:<,&*)$4(#6&0'@3= - key $< not found in DictionaryErreur lors du parsing de FEN: 5;:6=+&"5= -&?11 - key $; not found in DictionaryErreur lors du parsing de FEN: /37&<*20 7"<9657>#"0$5/4?$.3?7+;!'%!*.1;36=80='!05<6#6(1)@3/0'3+:)@2  '36 %,/+;;53(>0)"#)-1@+9 - key $& not found in DictionaryErreur lors du parsing de FEN: 9)@>;=53;+932=5=85-@+&67$0>(?%.((549 - key $) not found in DictionaryErreur lors du parsing de FEN: 7*;<1)3$/*02@..:15:;4;9/>;:53 - key $* not found in DictionaryErreur lors du parsing de FEN: 8<&=+3')#>#$@77%8*(2$5;44 " !=3<9@.!:,8,9,(,4$$# -$! ; =*)1)8(@%!4<.69?)(6*>='9197=:--8&&  - Assertion failedErreur lors du parsing de FEN: 0;797@<:>.77 - key $; not found in DictionaryErreur lors du parsing de FEN: 8@-#"8)=>#.4=4596 890=:"4#42" "<.-6)3,6+@-%26@79&1<;>5+,45):21)!44  @-6$:@;,)8521;01 : - Assertion failedErreur lors du parsing de FEN: ;8<+4$9>>'*+*2>-/> - key $; not found in DictionaryErreur lors du parsing de FEN: 84!+21!?"4&*9%;)50-7+(6'-'1+@)9;%*(6+=/-2(5&>#&@!$)+83),< - Assertion failedErreur lors du parsing de FEN: ;!%=%';03(28' =7801%31)>8$>>0:'=) /@7877-5--2&!4(6/@4./86,'3;@3/8))7,3.=6/ /@@8))7$*-#=<?88%7"@7>5,. - key $; not found in DictionaryErreur lors du parsing de FEN: 4">?$$+;%->.362,1.@7"&;4= - key $" not found in DictionaryErreur lors du parsing de FEN: =$$&< +(!.6"69 (:6,!04,:!6#@;<$#,'49-&@3.9+"$#,>5-#'0180?!8<5;3*88-85'&/ - key $= not found in DictionaryErreur lors du parsing de FEN: @1@(4:31;>@3'0@/>12;&==#$0+>!=42.&.@%"-5,(%79<-),)+"%6,,8/=(0@6.(6$:1&)@0*93;;6@!<28%<2%<@ 77&*8415. - key $@ not found in DictionaryErreur lors du parsing de FEN: =(62<"+@#6)%)==.&)"++!(2;6817>-*/4'4=<8.>))..5'::),- 8 - key $= not found in DictionaryErreur lors du parsing de FEN: $2?2#%2>,.'8,"  - key $$ not found in DictionaryErreur lors du parsing de FEN: @05/00-6?4!+)2-0&$;,9=3,%648)>04 >8+-%6?:)? - key $@ not found in DictionaryErreur lors du parsing de FEN: =-'<-"@8;9=$.>#&>60..+&4>3(:(5&5#'-?-'7)2+58-'8/2 8;0&<>52 - key $= not found in DictionaryErreur lors du parsing de FEN: *<)@#,7&=&'973)93?-@;;7-5'+1'<2>% - key $* not found in DictionaryErreur lors du parsing de FEN: '<=" 8,407$!1!83*:,6<4>/,)%0%&<#&4/57)!30"0&0'18;&*942>?3@4$1,1#(8$>/- 25$&#??!08;#$(!5< - key $' not found in DictionaryErreur lors du parsing de FEN: -?'*1=?<@:;0;#=5#..7*:<% -3*>*#/,%$?9?9-7%0/6+<#%/++>5-+9?:+<',"18,#)9 - key $- not found in DictionaryErreur lors du parsing de FEN: &-,/40,'9-0' - key $& not found in DictionaryErreur lors du parsing de FEN: @7&#%#!64-<5&$,0=,1&/%@7@'"166::9;#,/.>3"1=!$41@"?30 - key $@ not found in DictionaryErreur lors du parsing de FEN: 163!.(3:=9>0#*078'%.&2:6( #*/ 2/%=+663,11$?=<8#7+#6<?*/=$$!2?@5.>2/3#?. !'$-*'%3)=.) >383&"94-@ - key $! not found in DictionaryErreur lors du parsing de FEN: @80?37+).$89-72@)$'!:*;&3 - key $@ not found in DictionaryErreur lors du parsing de FEN: )%1)45- "22,:&<+79 *=:68@(' 2;+!1@ ,(4/,/'*,<! """/#.013..,0*8!3<#+.2-=?+&(*#:=+6?0=3'<"&@@.#@?*7 - key $) not found in DictionaryErreur lors du parsing de FEN: 4-&)4?%41;1(?=#'.4$&59(=+18?@40$"+&=?#"8->)=,..5<7>:10 - key $- not found in DictionaryErreur lors du parsing de FEN: ).8>)*";-*@6)8*"'4##$84#2#65;#)#@2%2,/0,;!); - key $) not found in DictionaryErreur lors du parsing de FEN: 3/895@$%&0,)*.7>$72=:&52'6*>!.3/;3%)<3/.!9-'/5 5= - Assertion failedErreur lors du parsing de FEN: ,> ,:?'="3!77=&&9:3;%945-0>* - key $, not found in DictionaryErreur lors du parsing de FEN: 8<0<#$>,'!%441&3//=;-)8)126!40&)> '74$,2 3 - Assertion failed
+Erreur lors du parsing de FEN: (>1   06/++2.1.!/.=: !"<=+ 08:*">&:@!?/23%<+-@+' 590#0.;?@,0<:700994:;#/)7 59<6 23&2$! - key $( not found in Dictionary
+Erreur lors du parsing de FEN:  (0,!)12@9=)?,$:5>+.:6+': - Assertion failed
+Erreur lors du parsing de FEN: .+30&"2  :/"#0!+2(,2>1,8,5>- =.89 +#8 3*4:&4&<#;4;9185%#=-/0+6098@@: - key $. not found in Dictionary
+Erreur lors du parsing de FEN: 4<3&#<,,/), 83*5::)6@8%=-#!80<>119@'=.9# ?!!&1, - key $< not found in Dictionary
+Erreur lors du parsing de FEN: 8(-(!%,+(?076=!24"('?'+/7=@$9!@;,'33"!6$@7*?+ 2 - Assertion failed
+Erreur lors du parsing de FEN: 8>,($,?=,=831<@+9>'=-&1$+44(/51+3+"-.<6>'921-"?-5.@>)!7'1-7 /1;3%#<=6,%5! - Assertion failed
+Erreur lors du parsing de FEN: (/:61:;)4?,9?7($/+"4%/3;3 (#0095=.?8'),56! @9+;28:-41%@2%8,? @3+$.4&+<<4-+4+4: - key $( not found in Dictionary
+Erreur lors du parsing de FEN: #. /8"6"!,%=""%4& ,=2:@?>43%*2$3:(1!,8&;9='49-@ 48<?)2+56?- - key $# not found in Dictionary
+Erreur lors du parsing de FEN: +'32;>&'8"(!,8?:?)3$ - key $+ not found in Dictionary
+Erreur lors du parsing de FEN: &#,)-+=!-?9"&00*9(>&@):%(1=/=;1"'79@3-6,13* - key $& not found in Dictionary
+Erreur lors du parsing de FEN: '$4:=.#0-+!"-+,2881;801:<5>819$0= - key $' not found in Dictionary
+Erreur lors du parsing de FEN: <@)./0-#&29*.;3;2+=!.#3( - key $< not found in Dictionary
+Erreur lors du parsing de FEN: "#-#/+3--(0@'0?3@& )*+5<&<&!9 - key $" not found in Dictionary
+Erreur lors du parsing de FEN: (%*2<9>64@":>1);* 9=-508 -56-=(3(?"$@10..9+:2 - key $( not found in Dictionary
+Erreur lors du parsing de FEN: @&4=*>1$%=1:@<>+=#*'$/9:715%6&2(3,="3 - key $@ not found in Dictionary
+Erreur lors du parsing de FEN: <1?%?;(>"/</@!=,$$<'@:?>35*."1$3">?$".$ / (: 7-+416+66/7%,64#>>)$#!+#<8*>2;.)>*;040 - key $< not found in Dictionary
+Erreur lors du parsing de FEN: <:*%*# 0-).=825?:<?34;;&-,12>96)$@1:!7%;1"8>3+*!@10 9*;4 - key $< not found in Dictionary
+Erreur lors du parsing de FEN: &':+>3+-=51'/$:.0 6,,%=##-6-57"5(5,@!/0 "*%=!$!) %,+ - key $& not found in Dictionary
+Erreur lors du parsing de FEN: (4:"?:+=?24,-!.0"/=;)'6< =0%%5<7);<"&&$(*:;,4,9@"</$&&- - key $( not found in Dictionary
+Erreur lors du parsing de FEN: <4(;$$9:<,&*)$4(#6&0'@3= - key $< not found in Dictionary
+Erreur lors du parsing de FEN: 5;:6=+&"5= -&?11 - key $; not found in Dictionary
+Erreur lors du parsing de FEN: /37&<*20 7"<9657>#"0$5/4?$.3?7+;!'%!*.1;36=80='!05<6#6(1)@3/0'3+:)@2  '36 %,/+;;53(>0)"#)-1@+9 - key $& not found in Dictionary
+Erreur lors du parsing de FEN: 9)@>;=53;+932=5=85-@+&67$0>(?%.((549 - key $) not found in Dictionary
+Erreur lors du parsing de FEN: 7*;<1)3$/*02@..:15:;4;9/>;:53 - key $* not found in Dictionary
+Erreur lors du parsing de FEN: 8<&=+3')#>#$@77%8*(2$5;44 " !=3<9@.!:,8,9,(,4$$# -$! ; =*)1)8(@%!4<.69?)(6*>='9197=:--8&&  - Assertion failed
+Erreur lors du parsing de FEN: 0;797@<:>.77 - key $; not found in Dictionary
+Erreur lors du parsing de FEN: 8@-#"8)=>#.4=4596 890=:"4#42" "<.-6)3,6+@-%26@79&1<;>5+,45):21)!44  @-6$:@;,)8521;01 : - Assertion failed
+Erreur lors du parsing de FEN: ;8<+4$9>>'*+*2>-/> - key $; not found in Dictionary
+Erreur lors du parsing de FEN: 84!+21!?"4&*9%;)50-7+(6'-'1+@)9;%*(6+=/-2(5&>#&@!$)+83),< - Assertion failed
+Erreur lors du parsing de FEN: ;!%=%';03(28' =7801%31)>8$>>0:'=) /@7877-5--2&!4(6/@4./86,'3;@3/8))7,3.=6/ /@@8))7$*-#=<?88%7"@7>5,. - key $; not found in Dictionary
+Erreur lors du parsing de FEN: 4">?$$+;%->.362,1.@7"&;4= - key $" not found in Dictionary
+Erreur lors du parsing de FEN: =$$&< +(!.6"69 (:6,!04,:!6#@;<$#,'49-&@3.9+"$#,>5-#'0180?!8<5;3*88-85'&/ - key $= not found in Dictionary
+Erreur lors du parsing de FEN: @1@(4:31;>@3'0@/>12;&==#$0+>!=42.&.@%"-5,(%79<-),)+"%6,,8/=(0@6.(6$:1&)@0*93;;6@!<28%<2%<@ 77&*8415. - key $@ not found in Dictionary
+Erreur lors du parsing de FEN: =(62<"+@#6)%)==.&)"++!(2;6817>-*/4'4=<8.>))..5'::),- 8 - key $= not found in Dictionary
+Erreur lors du parsing de FEN: $2?2#%2>,.'8,"  - key $$ not found in Dictionary
+Erreur lors du parsing de FEN: @05/00-6?4!+)2-0&$;,9=3,%648)>04 >8+-%6?:)? - key $@ not found in Dictionary
+Erreur lors du parsing de FEN: =-'<-"@8;9=$.>#&>60..+&4>3(:(5&5#'-?-'7)2+58-'8/2 8;0&<>52 - key $= not found in Dictionary
+Erreur lors du parsing de FEN: *<)@#,7&=&'973)93?-@;;7-5'+1'<2>% - key $* not found in Dictionary
+Erreur lors du parsing de FEN: '<=" 8,407$!1!83*:,6<4>/,)%0%&<#&4/57)!30"0&0'18;&*942>?3@4$1,1#(8$>/- 25$&#??!08;#$(!5< - key $' not found in Dictionary
+Erreur lors du parsing de FEN: -?'*1=?<@:;0;#=5#..7*:<% -3*>*#/,%$?9?9-7%0/6+<#%/++>5-+9?:+<',"18,#)9 - key $- not found in Dictionary
+Erreur lors du parsing de FEN: &-,/40,'9-0' - key $& not found in Dictionary
+Erreur lors du parsing de FEN: @7&#%#!64-<5&$,0=,1&/%@7@'"166::9;#,/.>3"1=!$41@"?30 - key $@ not found in Dictionary
+Erreur lors du parsing de FEN: 163!.(3:=9>0#*078'%.&2:6( #*/ 2/%=+663,11$?=<8#7+#6<?*/=$$!2?@5.>2/3#?. !'$-*'%3)=.) >383&"94-@ - key $! not found in Dictionary
+Erreur lors du parsing de FEN: @80?37+).$89-72@)$'!:*;&3 - key $@ not found in Dictionary
+Erreur lors du parsing de FEN: )%1)45- "22,:&<+79 *=:68@(' 2;+!1@ ,(4/,/'*,<! """/#.013..,0*8!3<#+.2-=?+&(*#:=+6?0=3'<"&@@.#@?*7 - key $) not found in Dictionary
+Erreur lors du parsing de FEN: 4-&)4?%41;1(?=#'.4$&59(=+18?@40$"+&=?#"8->)=,..5<7>:10 - key $- not found in Dictionary
+Erreur lors du parsing de FEN: ).8>)*";-*@6)8*"'4##$84#2#65;#)#@2%2,/0,;!); - key $) not found in Dictionary
+Erreur lors du parsing de FEN: 3/895@$%&0,)*.7>$72=:&52'6*>!.3/;3%)<3/.!9-'/5 5= - Assertion failed
+Erreur lors du parsing de FEN: ,> ,:?'="3!77=&&9:3;%945-0>* - key $, not found in Dictionary
+Erreur lors du parsing de FEN: 8<0<#$>,'!%441&3//=;-)8)126!40&)> '74$,2 3 - Assertion failed
 ```
 
 Mais nous pouvons deja voir que toutes ne trigger pas les même exception, nous avons `key not found in Dictionary` et `Assertion failed` par exemple.
@@ -365,7 +414,11 @@ parse
 Nous attendons un ' ' mais nous avons le caractère '-' à la place :
 
 ```smalltalk
-expectString: expectedString	| parsedToken |	parsedToken := stream next: expectedString size.	self assert: parsedToken = expectedString
+expectString: expectedString
+
+	| parsedToken |
+	parsedToken := stream next: expectedString size.
+	self assert: parsedToken = expectedString
 ```
 
 Et c'est normal puisque que dans notre string nous n'avons pas de cast (rock), nous avons '-' ce qui nous fait passer dans la premiere partie du code :
@@ -382,3 +435,27 @@ parseCastlingAbility
 ```
 
 ### Grammar fuzzing 
+
+```smalltalk
+defineGrammar
+	super defineGrammar.
+
+	ntFEN --> ntPiecePlacement , ' ' , ntSideToMove , ' ' , ntCastling , ' ' , ntEnPassantTargetSquare , ' ' , ntHalfMoveClock , ' '
+	, ntFullMoveNumber.
+
+	ntPiecePlacement --> ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank , '/' , ntRank.
+	ntRankElement --> ntPiece | ntDigit.
+	ntRank --> ntRankElement , ntRankElement , ntRankElement , ntRankElement , ntRankElement , ntRankElement , ntRankElement , ntRankElement.
+	ntPiece --> 'P' | 'N' | 'B' | 'R' | 'Q' | 'K' | 'p' | 'n' | 'b' | 'r' | 'q' | 'k'.
+	ntDigit --> '1'.
+	ntSideToMove --> 'w' | 'b' .
+	ntCastling --> ntCastlingAbility | '-'.
+	ntCastlingAbility --> ntCastlingOption | ntCastlingOption , ntCastlingAbility.
+	ntCastlingOption --> 'K' | 'Q' | 'k' | 'q'.
+	ntEnPassantTargetSquare --> ntFile , ntDigit | '-'.
+	ntFile --> 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h'.
+	ntHalfMoveClock --> ntDigit | ntDigit , ntHalfMoveClock.
+	ntFullMoveNumber --> ntDigit | ntDigit , ntFullMoveNumber.
+
+	^ ntFEN
+```
