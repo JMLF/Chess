@@ -538,7 +538,131 @@ parseCastlingAbility
 
 Un fois ces deux bug fix, nous pouvons relancer pour avoir de nouveaux résultats.
 
+```
+#('PASS' #('K1k5/8/P7/8/8/8/8/8 w - - 0 1' true) 
+#('FAIL' an Array('r6r/1b2k1bq/8/8/7B/8/8/R3K2R b KQ - 3 2' Error: Expected one of #($k $K $q $Q)) 
+#('PASS' #('8/8/1P2K3/8/2n5/1q6/8/5k2 b - - 0 1' true)) 
+#('PASS' #('r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10' true)) 
+#('PASS' #('8/k1P5/8/1K6/8/8/8/8 w - - 0 1' true)) 
+#('PASS' #('3k4/3p4/8/K1P4r/8/8/8/8 b - - 0 1' true)) 
+#('PASS' #('8/8/4k3/8/2p5/8/B2P2K1/8 w - - 0 1' true)) 
+#('PASS' #('8/P1k5/K7/8/8/8/8/8 w - - 0 1' true)) 
+#('PASS' #('2K2r2/4P3/8/8/8/8/8/3k4 w - - 0 1' true)) 
+#('FAIL' an Array('r6r/1b2k1bq/8/8/7B/8/8/R3K2R b KQ - 3 2' Error: Expected one of #($k $K $q $Q)) 
+#('PASS' #('8/k1P5/8/1K6/8/8/8/8 w - - 0 1' true)) 
+#('PASS' #('8/8/1P2K3/8/2n5/1q6/8/5k2 b - - 0 1' true)) 
+#('FAIL' an Array('8/8/1k6/2b5/2pP4/8/5K2/8 b - d3 0 1' Error: Expected one of (3 to: 6)) 
+#('PASS' #('r1bqkbnr/pppppppp/n7/8/8/P7/1PPPPPPP/RNBQKBNR w KQkq - 2 2' true)) 
+#('FAIL' an Array('3k4/8/8/8/8/8/8/R3K3 w Q - 0 1' Error: Expected one of #($k $K $q $Q)) 
+#('PASS' #('8/k1P5/8/1K6/8/8/8/8 w - - 0 1' true)) 
+#('PASS' #('4k3/1P6/8/8/8/8/K7/8 w - - 0 1' true)) 
+#('PASS' #('8/P1k5/K7/8/8/8/8/8 w - - 0 1' true)) 
+#('PASS' #('3k4/3p4/8/K1P4r/8/8/8/8 b - - 0 1' true)) 
+#('PASS' #('8/8/1P2K3/8/2n5/1q6/8/5k2 b - - 0 1' true)) 
+#('PASS' #('8/8/4k3/8/2p5/8/B2P2K1/8 w - - 0 1' true)) 
+#('PASS' #('4k3/1P6/8/8/8/8/K7/8 w - - 0 1' true)) 
+#('FAIL' an Array('8/8/1k6/2b5/2pP4/8/5K2/8 b - d3 0 1' Error: Expected one of (3 to: 6)))
+```
 
+Nous avons des Fen qui passent !
+Nous avons deux nouveaux bugs `Error: Expected one of (3 to: 6)` et `Error: Expected one of #($k $K $q $Q)`. 
+Malheuresement par manque de temps nous n'irons pas plus loin dans la correction de ceux-ci.
+
+Essayons en ajoutant des mutations sur notre corpus :
+
+```smalltalk
+mutationFuzzer maxMutations: 5. mutationFuzzer minMutations: 0.
+```
+
+Forcement, nous avons beaucoup de fen générés qui ne respecte pas le format et qui sont donc en PASS-FAIL (fen invalide sur l'oracle et erreur du parser)
+
+```
+an Array(an Array('PASS-FAIL' an Array('rnbq1k1r/pp1Pbppp/2p5/8/2Bu/8/PPP1NnPP/RNBQK2R w KQ - 1 8' KeyNotFound: key $u not found in Dictionary)) 
+an Array('FAIL' an Array('rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8' Error: Expected one of #($k $K $q $Q))) 
+an Array('PASS-FAIL' an Array('5k2//8/8/8/8/8/4K2R w K - 0 1' KeyNotFound: key Character value: 24 not found in Dictionary)) 
+an Array('FAIL' an Array('rnb2k1r/pp1Pbppp/2p5/q7/2B5/8/PPPQNnPP/RNB1K2R w KQ - 3 9' Error: Expected one of #($k $K $q $Q))) 
+#('PASS' #('r3k2r/1b4bq/8/8/8/8/7B/R3K2R w KQkq - 0 1' true)) 
+an Array('PASS-FAIL' an Array('5k2//88/8''8/8I/4K2R w K -0 1' AssertionFailure: Assertion failed)) 
+an Array('PASS-FAIL' an Array('r3k2r/1b4bq/8/8/8/8/7B/VR3J2R w KMQkq - 0 1' KeyNotFound: key $V not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('r3k2*r/8/3Q4/8/8/5q2/8/R3K2R b KQkq - 0 1' KeyNotFound: key $* not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('8/8/1P2K3/8/2n5/16//5k2 b - - 0 5' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('8/8/4k3/8o/2p5/8/B2P2K1 w - - 0 1' AssertionFailure: Assertion failed)) 
+an Array('PASS-FAIL' an Array('uk2/8/8/8r/8/8/8/4K>2R w K - 0 1' KeyNotFound: key $u not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('8/8/8./2k5/2pP4/8/B7l/4K3 b - d3 0 3' AssertionFailure: Assertion failed)) 
+an Array('PASS-FAIL' an Array('rnbq1k1r/pp1Pbppp/2p5/8/2eB5?8/PPPNfnPP/RNBQK2R w KQ(- 1 8' KeyNotFound: key $e not found in Dictionary)) 
+#('PASS' #('8/8/4k3/8/2p5/8/B2P2K1/8 w - - 0 1' true)) 
+an Array('PASS-FAIL' an Array('r3k2r/8/3Q4/8/8/5q2/8/R3K2R b KPkq - 0 ' Error: Expected one of #($k $K $q $Q))) 
+an Array('FAIL' an Array('8/8/8/2k5/2pP4/8/B7/4K3 b - d3 0 3' Error: Expected one of (3 to: 6))) 
+an Array('PASS-FAIL' an Array('2r5/3pk3/2P5/8/2K5//8 w -/ 5 4' KeyNotFound: key Character value: 15 not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('3k4/8/8/88/8/8/R3K3 w Q - 0 1' AssertionFailure: Assertion failed)) 
+an Array('PASS-FAIL' an Array('2r5/3:pk3/8/2P5/8/2K5/8/8 w - - 5 4' KeyNotFound: key $: not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('r4rk1/1pp1qppp/p1n:p1n2/2b1p1B1/2B1P1b1N/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10' KeyNotFound: key $: not found in Dictionary)) an Array('PASS-FAIL' an Array('r3k2dr/1b4bq/8/8/y8/8/7B/R3K2R w KQkq - 0 1' KeyNotFound: key $d not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('r4r0/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RKB1 w - - )0 10' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('2kr3r/p1ppqpb1/bn2Qnp1/3PN3/1p2P3/2N5/PPPBBPPP/2R3K2R b KQ - 3 2' Error: La taille ne fait pas 8)) 
+an Array('FAIL' an Array('3k4/8/8/8/8/8/8/R3K3 w Q - 0 1' Error: Expected one of #($k $K $q $Q))) 
+an Array('PASS-FAIL' an Array('4k3/1R6/p8/8/8/8/K/80w- - 0 1' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('r1bqkbNr/pppppppp/n7/8/8-P7/1PPPPPPPT/RNBQIBNR w KQkq 1- 2 2' AssertionFailure: Assertion failed)) 
+an Array('PASS-FAIL' an Array('8/8/1k6/2b/2pP4/8/5K2/8 b - d=3 0 W1' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('8/8}/1P2K3/82vn5/1q6/8/5k2 b - - 01' AssertionFailure: Assertion failed)) 
+an Array('PASS-FAIL' an Array('8/P1k5/K7/8/8/8/8/8 w  - 0 q' Error: Expected one of #($k $K $q $Q))) 
+an Array('PASS-FAIL' an Array('8/k1P5/8/1K6/88/8/8 w - - 0 !' AssertionFailure: Assertion failed)) 
+an Array('PASS-FAIL' an Array('rnbq1kW1r/pp1Pbppp/2p5/8/2B5/8/P"PP1NnPP/RNBQK2R w KQ - 1 8' KeyNotFound: key $W not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('8/8/1P2K3b/8/2n5?/1q6/8/5k2 b - - 0 1' KeyNotFound: key $? not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('8/8/2k5/5q2/}5n2+8/5K2/8 (b - - 0 1' KeyNotFound: key $} not found in Dictionary)) 
+#('PASS' #('8/8/4k3/8/2p5/8/B2P2K1/8 w - - 0 1' true)) 
+an Array('PASS-FAIL' an Array('r3k2r/xB1b4bq/8/8/8/8/7B/R3K2R w KQkq -n 0 1T' KeyNotFound: key $x not found in Dictionary)) 
+#('PASS' #('2K2r2/4P3/8/8/8/8/8/3k4 w - - 0 1' true)) 
+an Array('PASS-FAIL' an Array('8/8/4k;//2p5/8/B2Po2K1/8 w - - 0 1' KeyNotFound: key $; not found in Dictionary)) 
+#('PASS' #('8/P1k5/K7/8/8/8/8/8 w - - 0 1' true)) 
+an Array('PASS-FAIL' an Array('rnb2K1r/pp1Pbrpp/2p5/q7/2B5/8/PPPQNnPP-/RNB1K2R w KQ - 3 9' KeyNotFound: key $- not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('3k4/3p4/8G/K1P4r/8/8n/88 b - - 0 1' AssertionFailure: Assertion failed)) 
+an Array('PASS-FAIL' an Array('8/8/1P27K3/8/2n5/1q6/8/5k2 b --0,0 1' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('r6r1bk1bq/8/8?7B/8/8/R2K2R b KQ - 3 2' AssertionFailure: Assertion failed)) 
+an Array('PASS-FAIL' an Array('8/k1P5/!8/K6//8/8/8 w$- - 0 1' KeyNotFound: key $! not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('4k3/1P6/8/8/8/:/K7/8 w - - 0 1' KeyNotFound: key $: not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('8/k1cP5/8/1K6/8/8/8/8 w - - 0 1' KeyNotFound: key $c not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('rnbq1kb/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('r3k2rp1pp1pb1/bn2!Qnp1/2qPN3/1p2Pg3/2N5/PPPBBPPP/R3K2R b KQ{q - 3 "' KeyNotFound: key $! not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('2kr3r/p1ppqpb1/bn2Ynp1/3PN3/1p2P3/2N5/PPPB5BPPP/R3K2R b KQ - 3 2' KeyNotFound: key $Y not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('rnb2k1r/pp1#Pbppp/2p5/q7/2B5/8/PPPQNnPP/ROB1K2R w K - 3 9' KeyNotFound: key $# not found in Dictionary)) 
+an Array('PASS-FAIL' an Array('8/8/2k5/5q2/5n2/85K2/8 b - - 0 1' AssertionFailure: Assertion failed)))
+```
+
+Ce qui nous interesse ici ce sont les FAIL. Puisque nous n'avons pas fix les bugs précédemment ce sont les même. Nous pouvons constater que certaines 
+fen généré sont en PASS et pour ce qui est des PASS-FAIL nous avons des erreurs proche des générations aléatoires.
 
 ### Grammar fuzzing 
 
+De la même façon que le fuzzing avec mutation, essayons le fuzzing avec notre grammaire :
+
+```smalltalk
+fuzzer := PzGrammarFuzzer on: MyFENGrammar new.
+
+runner := MyFENRunner new.
+
+fuzzer run: runner times: 50.
+```
+
+Comme dit dans la section création de la grammaire, celle-ci est trop imprécise. Pour qu'elle soit pleinement exploitable il nous faudrait l'affiner.
+Pour le moment, toutes les générations sont en PASS-FAIL :
+
+```
+an Array(an Array('PASS-FAIL' an Array('RN1nRp11/11BQ1KNR/bp141RBN/111KR0Kn/nn0Q1nNQ/111Kn115/qk1RBnPr/1r571nqn w - a1 417 1' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('Q2q5696q/Qr51nPRK/111rn7n1/511b1Qb6/R1471k1p/p113KB1Q/21K1r118/bQbkQ1b1 w k d2 10 6' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('K191181K/Q11501p1/k1NprBB8/q11K4k1P/B1811Q11/B19Kr1bB/KK1Nnq28/k11pKb11 w Q - 188 5' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('Nq8B5Bn7/r1bbp131/P1811PB4/Nk1bn15q/17QNP141/1brnnK41/2Rn6Qk6r/1b1161QQ w - - 1 11' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('NB1nQK6B/1BpbqrPq/nP85Nk1R/q1kK1N1b/bk115bQq/qb15b1Q8/q1B11P16/11111p11 b KQQ - 1 0' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('KpN1nRPN/8R112B69/B31p11NQ/Pn11prrK/P1Pn91q1/kp1R1bRr/r1bkP15N/QP621BK5 b KQK - 1 1' AssertionFailure: Assertion failed)) an Array('PASS-FAIL' an Array('7P11111b/rNQr181q/11qQRpq7/N1K1Rp11/p1RnKbq3/P515r6Q1/bPK312K1/Qpn9b06p b kQ - 11 7' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('6B5rkn15/rnb41R1k/16P1NqN3/8NnrK7Q1/66KKP131/Bk12rq96/KKr101nb/111161r1 b Qq d1 3 5' AssertionFailure: Assertion failed)) an Array('PASS-FAIL' an Array('4Q11qBB1/p111p0n1/1103b1Q8/b2R116kK/1n2R1111/q1rKr1bB/7k1b1kk1/b1nRR2n1 b - - 2511 1' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('N4r5nn18/N161971Q/KrK8rbN3/36NbK1pk/161112n1/1P10k51q/1p1r4rQR/1qK11q1R w QKq - 3 3' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('9RQ1kQ09/pPPKB1k2/12RQN111/2p91qn1N/Nqrr1N31/Q1r5q1rR/3803RbrR/kQ1831kP w - b4 01 11' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('bp28RBk1/6nqQbP6p/knnBr1kp/197p1rk2/r66B5Q7p/5r111PB2/1pR6RPK0/81111p6n b - - 1 1' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('pbp1BQ41/kk0057nK/nk01kN30/bKB131qn/1111p31N/1pB1Rk10/19P1n10k/1N3B6Q11 w - b1 112 3' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('2p16rrqN/NpN19111/PpB1111K/11kp1Q0b/r195BBN1/n1pkP1K1/191p1241/14R1R198 w - - 1 1' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('kbrBKPPN/8111N11B/r18bRKp1/111Pnr96/1R7bRpqp/777nQQ2Q/810N1QNb/QQ1p3Q1K w - f1 0 1' AssertionFailure: Assertion failed)) 
+an Array('PASS-FAIL' an Array('N11rn1K0/p6Pkq11b/1KN1r119/K16B9k11/RqQ111kR/15Q1qkqN/P8611BK2/NPN810P2 w k - 1 8' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('P18nnB2P/1r1R11R6/1qrq110K/n131N1P8/11p8rNPk/nnN1q112/Qkr31r9q/91QR01n1 b - - 2 813' Error: La taille ne fait pas 8)) 
+an Array('PASS-FAIL' an Array('k1RBqq6b/B0nR1PBR/19011bK8/p1715n17/59k102R1/0nn7np10/qNR1N31Q/9qKPp11r b kQ - 9 11' Error: La taille ne fait pas 8)) 
+```
+
+Nous ne pouvons pas en l'etat trouver des bugs interessant avec.
